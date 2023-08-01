@@ -22,7 +22,7 @@ class Qrs extends CI_Controller {
 
         if($dtnow >= date("H:i:s", strtotime('06:00:00')) && $dtnow < $dtmasuk) { //jam masuk
             $this->data['disable_input'] = false;
-        } elseif($dtnow >= $dtpulang && $dtnow < date("H:i:s", strtotime('23:59:59'))) { //jam pulang
+        } elseif($dtnow >= $dtpulang && $dtnow < date("H:i:s", strtotime('20:00:00'))) { //jam pulang
             $this->data['disable_input'] = false;
         } else {
             $this->data['disable_input'] = true;
@@ -62,7 +62,7 @@ class Qrs extends CI_Controller {
                     ( !empty(trim($qr_arr[0])) )?$this->Qrs_model->save_in(['nis'=>$qr_arr[0]]):'';
                     //echo $this->db->last_query().'<br>';
                 }
-            } elseif($dtnow >= $dtpulang && $dtnow < date("H:i:s", strtotime('23:59:59'))) { //jam pulang
+            } elseif($dtnow >= $dtpulang && $dtnow < date("H:i:s", strtotime('20:00:00'))) { //jam pulang
                 if(count($qr_arr) > 1) {
                     foreach($qr_arr as $key=>$val) {
                         $val = trim($val);

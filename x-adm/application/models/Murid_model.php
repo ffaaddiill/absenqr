@@ -259,8 +259,10 @@ class Murid_model extends CI_Model
         }
         $data = array_values($data);
 
-        $this->db->insert_batch('murid',$data);
-
+        if(!empty($data)) {
+            $this->db->insert_batch('murid',$data);
+        }
+        
         foreach($return as $key=>$val) {
             if(!isset($val['status'])) {
                 unset($return[$key]);
@@ -268,10 +270,10 @@ class Murid_model extends CI_Model
         }
         $return = array_values($return);
 
-        // debugvar($data);
+        //debugvar($data);
         // echo '<br>';
         // debugvar($return);
-        // die();
+        //die();
 
         return $return;
     }

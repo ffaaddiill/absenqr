@@ -1,0 +1,92 @@
+<div role="tabpanel" class="payment-row tab-pane fade" id="item-payment-'+row+'">\
+								<div class="row">\
+                					<div class="col-lg-12 text-right">\
+                						<a class="btn btn-danger " onclick="removeItem(\''+row+'\');">-</a>\
+                					</div>\
+            					</div>\
+            					<div class="row">\
+									<div class="col-lg-12">\
+									    <div class="form-group">\
+									        <label for="payment_invoice_number_'+row+'" class="col-lg-2 control-label text-left">Invoice No. <i id="label_invoice_number_'+row+'" style="display:none;" class="fa fa-refresh fa-spin"></i></label>\
+									        <div class="col-lg-4">\
+												<input type="text" data-row="'+row+'" class="form-control" name="payment['+row+'][invoice_number]" data-row="'+row+'" id="payment_invoice_number_'+row+'" placeholder="Invoice Number">\
+									        </div>\
+									        <label form="payment_tax_number_'+row+'" class="col-lg-2 control-label text-left">Tax No.</label>\
+									    	<div class="col-lg-4">\
+									    		<input data-row="'+row+'" type="text" id="payment_tax_number_'+row+'" class="form-control" name="payment['+row+'][tax_number]" placeholder="Tax Number"/>\
+									    	</div>\
+									    </div>\
+									    <div role="tabpanel" id="sub-tabster-'+row+'">\
+									    	<ul class="nav nav-tabs" role="tablist">\
+						            			<li role="presentation" class="active"><a href="#item-invoice-'+row+'" aria-controls="item-invoice-'+row+'" role="tab" data-toggle="tab">Item Invoice</a></li>\
+						            			<li role="presentation" ><a href="#payment-invoice-'+row+'" aria-controls="payment-invoice-'+row+'" role="tab" data-toggle="tab">Payment Invoice</a></li>\
+									    	</ul>\
+									    	<div class="tab-content">\
+									    		<div role="tabpanel" class="tab-pane fade in active" id="item-invoice-'+row+'">\
+									    			<div class="form-group">\
+											    		<a class="btn btn-success" onclick="AddItemInvoice(\''+row+'\')"> Add Item Invoice</a>\
+											    	</div>\
+												    <!-- end of row tax number -->\
+												    <div id="wrap-item-payment-'+row+'">\
+												    	<div class="row row-item-invoice"  id="row-item-invoice-'+row_id_item+'">\
+															<div class="form-group">\
+														        <label for="payment_id_item_'+row+'" class="col-lg-2 control-label text-left">Description Item 1</label>\
+														        <div class="col-lg-4">\
+														            <select data-row="'+row+'"  data-nest="'+row+'" id="item_invoice_id_item_'+row+'" class="form-control" name="payment['+row+'][item_invoice][0][id_item]">\
+														            	<option value="">Pilih item</option>\
+														            	'+
+														            	item
+														            	+'</select>\
+														        </div>\
+														        <label for="payment_must_paid_amount_'+row+'" class="col-lg-2 control-label text-left">Must Paid Amount</label>\
+														        <div class="col-lg-3">\
+														            <input type="number" class="form-control" id="item_invoice_must_paid_amount_'+row+'" disabled="disabled" />\
+														        </div>\
+														        <div class="col-lg-1">\
+														        	<a class="btn btn-danger" onclick="removeItemInvoice(\''+row+'\',\''+row_id_item+'\');">x</a>\
+														        </div>\
+														    </div>\
+														</div>\
+												    </div>\
+									    		</div>\
+									    		<div role="tabpanel" class="tab-pane fade" id="payment-invoice-'+row+'">\
+									    			<div class="form-group">\
+						                        		<a class="btn btn-success" onclick="AddItemPaymentInvoice(\''+row+'\')"> Add Payment Invoice</a>\
+						                        	</div>\
+						                        	<div id="wrap-part-payment-'+row+'">\
+						                        		<div class="row row-payment-invoice" id="row-payment-invoice-'+row_id_item+'">\
+						                        			<div class="col-lg-5">\
+						                        				<div class="form-group">\
+							                        				<label>Curs Finance</label>\
+							                        				<input type="number" step="any" class="form-control" id="payment_invoice_curs_finance_0" name="payment['+row+'][item_payment][0][curs_finance]" value="1" />\
+							                        				<span>*fill with 1 if spanding amount is IDR</span>\
+							                        			</div>\
+							                        			<div class="form-group">\
+							                        				<label>Real Amount</label>\
+							                        				<input disabled="disable" type="number" step="any" class="form-control" id="payment_invoice_real_amount_'+row_id_item+'"  value="" />\
+							                        			</div>\
+							                        		</div>\
+						                        			<div class="col-lg-4 col-lg-offset-1">\
+						                        				<div class="form-group">\
+							                        				<label>Spending Amount</label>\
+							                        				<input data-row="'+row_id_item+'" data-nest="'+row+'" type="number" step="any" class="form-control" id="payment_invoice_spending_amount_'+row+'" name="payment['+row+'][item_payment][0][spending_amount]" value="" />\
+							                        			</div>\
+							                        			<div class="form-group">\
+							                        				<label>Date Of Paid Finance</label>\
+							                        				<div class="input-group date">\
+														                <input type="text" class="form-control" name="payment['+row+'][item_payment][0][date_of_paid]" id="payment_invoice_date_of_paid_'+row+'" value="'+date+'" readonly="readonly">\
+														                <span class="input-group-addon"><i class="glyphicon glyphicon-calendar"></i></span>\
+														            </div>\
+							                        			</div>\
+						                        			</div>\
+						                        			<div class="col-lg-1">\
+						                        				<a class="btn btn-danger" onclick="removeItemInvoicePayment(\''+row+'\',\''+row_id_item+'\');">x</a>\
+						                        			</div>\
+						                        		</div>\
+						                        	</div>\
+									    		</div>\
+									    	</div>\
+									    </div>\
+									</div>\
+								</div>\
+							</div>

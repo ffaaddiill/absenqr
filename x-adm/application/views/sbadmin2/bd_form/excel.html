@@ -1,0 +1,56 @@
+<div class="row">
+	<div class="col-lg-12">
+		<table class="table" border="0">
+		    <thead>
+				<tr>
+					<th rowspan="2">Date Of Recivied</th>
+					<th rowspan="2">BD Orc</th>
+					<th >Prefix</th>
+					<th >Vendor/Suplier</th>
+					<th>No. NPWP</th>
+					<th>Address NPWP</th>
+					<th colspan="2">DPP PPh</th>
+					<th>Rate PPh</th>
+					<th colspan="{count_header}">PPH Type</th>
+					<th>Description</th>
+					<th>Amount VAT</th>
+					<th>WHT CODE</th>
+				</tr>
+				<tr>
+					<td></td>
+					<td></td>
+					<td></td>
+					<td></td>
+					<td>Original Amount</td>
+					<td>IDR Amount</td>
+					<td></td>
+					{header_pph}
+					<td>{header_name}</td>
+					{/header_pph}
+				</tr>
+		    </thead>
+		    {list}
+		    <tbody>
+		        <tr class="active">
+		            <th scope="row">{no}</th>
+		            <td>{bd_number}</td>
+		            <td>{prefix_vendor}</td>
+		            <td>{vendor_name}</td>
+		            <td>{npwp}</td>
+		            <td>{address}</td>
+		            <td>{original_amount}</td>
+		            <td>{idr_amount}</td>
+		            <td>{rate_pph}</td>
+		            <td>{pph_23}</td>
+		            <td>{pph_26}</td>
+		            <td>{pph_4}</td>
+		            <td>{pph_21}</td>
+		            <td>{description}</td>
+		            <td>{pph_amount}</td>
+		            <td>{wht_code}</td>
+		        </tr>
+		    </tbody>
+		    {/list}
+		</table>
+	</div>
+</div>

@@ -1,0 +1,71 @@
+<table class="table" border="1">
+	<thead>
+		<tr>
+			<th>No.</th>
+			<th>Requestor</th>
+			<th colspan="2">BankDisbursement</th>
+			<th colspan="2">Bank Paid</th>
+			<th>Divisi</th>
+			<th>Kategori</th>
+			<th>No Invoice</th>
+			<th>Description</th>
+			<th colspan="5">Amount</th>
+			<th>Nama Vendor</th>
+			<th>Paid To</th>
+			<th>Account No.</th>
+			<th>Bank Name</th>
+			<th>Payment</th>
+			<th>Create By</th>
+		</tr>
+		<tr>
+			<td></td>
+			<td></td>
+			<td>Date</td>
+			<td>No.</td>
+			<td>Date</td>
+			<td>No.</td>
+			<td></td>
+			<td></td>
+			<td></td>
+			<td></td>
+			<td>USD</td>
+			<td>DPP</td>
+			<td>VAT</td>
+			<td>WHT</td>
+			<td>TOTAL</td>
+			<td></td>
+			<td></td>
+			<td></td>
+			<td></td>
+			<td></td>
+			<td></td>
+		</tr>
+	</thead>
+	<tbody>
+		{list}
+		<tr>
+			<td>{no}</td>
+			<td>{requestor}</td>
+			<td>{bd_date}</td>
+			<td>{bd_number}</td>
+			<td>{bank_paid}</td>
+			<td>{bd_paid_number}</td>
+			<td>{divisi}</td>
+			<td>{category}</td>
+			<td>{no_invoice}</td>
+			<td>{description}</td>
+			<td>{usd}</td>
+			<td>{dpp}</td>
+			<td>{vat}</td>
+			<td>{wht}</td>
+			<td>{net_total}</td>
+			<td>{vendor}</td>
+			<td>{account_name}</td>
+			<td>{account_number}</td>
+			<td>{bank_name}</td>
+			<td>{spending_amount}</td>
+			<td>{author}</td>
+		</tr>
+		{/list}
+	</tbody>		
+</table>

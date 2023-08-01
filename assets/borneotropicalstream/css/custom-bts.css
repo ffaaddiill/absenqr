@@ -1,0 +1,277 @@
+/**
+ * BTS - CUSTOM CSS
+ * @created by fadilah ajiq surya
+ **/
+
+.color-white {
+    color: #fff !important;
+}
+.color-primary {
+    color: #31afb4 !important;
+}
+.bg-primary {
+    background-color: #31afb4 !important;
+}
+.home-timer-event-bg {
+    background: url(../images/bg-underwater.png) no-repeat;
+    background-size: cover;
+    background-position: bottom;
+    opacity: 0.6;
+    height: 100%;
+    position: absolute;
+}
+.home-timer-event-content {
+    height: 100%;
+    position: absolute;
+}
+#timer {
+
+}
+#timer .time, #timer .time span {
+    color: #fff;
+}
+
+.ftco-navbar-light .navbar-nav > .nav-item.active > a {
+    color: #31afb4;
+}
+
+.ftco-navbar-light .navbar-nav > .nav-item .dropdown-menu {
+    border: 1px solid #31afb4;
+    margin-top: 0;
+}.ftco-navbar-light .navbar-nav > .nav-item .dropdown-menu a.dropdown-item:hover {
+    color: #31afb4;
+}
+
+.logo {
+    max-width: auto;
+    max-height: 70px;
+    padding: 5px; 
+}
+.bgsize-auto {
+    background-size: auto;
+}
+.heading-section .subheading {
+    margin-bottom: 0 !important;
+}
+#upcoming-product .heading-section .subheading, #upcoming-product .heading-section h2, #upcoming-product .heading-section p {
+    
+}
+#upcoming-product .img-banner-homepage {
+    width: 100%;
+}
+.ftco-section {
+    padding: 3em 0;
+}
+.testimony-wrap .line:after {
+    background: #CB2027;
+}
+.img-2 .icon {
+    background: #CB2027;
+}
+.product {
+    border: 1px solid #31afb4;
+}
+.product .ribbon {
+    position: absolute;
+    top: -11px;
+    width: 219px;
+    left: -10px;
+    padding: 10px;
+    color: #fff;
+    background-size: contain !important;
+    background: url(../images/fish/bts-ribbon.png) no-repeat;
+    height: auto;
+    z-index: 1;
+}
+
+.outer-img-gallery {
+    position: relative;
+    overflow: hidden;
+    max-height: 230px;
+
+}.outer-img-gallery img {
+    border-right: 1px solid #fff;
+    border-left: 1px solid #fff;
+}
+
+.ok-check {
+    color: #26B99A !important;
+    border: 3px dashed #26B99A !important;
+    border-radius: 60%;
+    padding: 10px;
+    font-size: 35px !important;
+}
+
+/**
+ * carousel home 
+ **/
+
+.video-overlay {
+    position: absolute;
+    z-index: 1;
+    background-color: transparent;
+    width: 100%;
+    height: 100%;
+}
+.btn-modal-video-close {
+    position: absolute;
+    z-index: 1;
+    right: -35px;
+    padding: 10px !important;
+    opacity: 1;
+    background-color: #fff !important;
+}
+
+#carouselHomeslider .carousel-caption h1 {
+    font-size: 8vw;
+    color: #fff;
+    line-height: 1.3;
+    font-weight: 400;
+    font-family: "Amatic SC", cursive;
+}
+#carouselHomeslider .carousel-caption h2 {
+    font-weight: 300;
+    font-size: 25px
+    letter-spacing: 4px;
+    text-transform: uppercase;
+    display: inline-block;
+    color: #fff;
+}
+#carouselHomeslider .carousel-inner {
+    /*max-height: 795px;*/
+}
+#carouselHomeslider .carousel-caption {
+    bottom: 30%;
+}
+/** end of carousel home **/
+
+/* homepage gallery */
+#showup-modal-gallery #showup-img-gallery {
+    width: 100%;
+}
+.gallery-overlay {
+    width: 100%;
+    position: absolute;
+    height: 100%;
+    cursor: pointer;
+    z-index: 1;
+}.gallery-overlay:hover {
+    background-color: #000;
+    opacity: 0.2;
+}
+/* end of homepage gallery */
+
+/* gallery page */
+.outer-gallery-page {
+    /*border-bottom: 1px solid rgba(0, 0, 0, 0.05) !important;
+    margin-bottom: 20px;*/
+}
+.inner-gallery {
+
+}
+.img-gallery {
+}
+/* end of gallery page */
+
+.product-more-hover {
+    z-index: 1;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translateY(-50%) translateX(-50%);
+}
+hr {
+    margin: 0.1em 0;
+}
+
+.section-our-market {
+    padding: 2em 0;
+}
+.img-find-us {
+
+}
+
+/* nav slider */
+.owl-nav {
+    /*bottom: 0 !important;
+    height: 100%;*/
+    top: 50%;
+}.owl-prev {
+    background: transparent !important;
+    position: absolute;
+    left: 0 !important;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100% !important;
+    width: 15% !important;
+}.owl-next {
+    background: transparent !important;
+    position: absolute;
+    right: 0 !important;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100% !important;
+    width: 15% !important;
+}
+.owl-carousel.home-slider .owl-nav .owl-prev:hover, .owl-carousel.home-slider .owl-nav .owl-prev:focus {
+    background-color: transparent !important;
+}.owl-carousel.home-slider .owl-nav .owl-next:hover, .owl-carousel.home-slider .owl-nav .owl-next:focus {
+    background-color: transparent !important;
+}.slider-prev, .slider-next {
+    color: #fff;
+    font-size: 50px;
+    opacity: .5;
+}.slider-prev:hover:before, .slider-next:hover:before {
+    color: #31afb4;
+}
+.owl-carousel.home-slider .slider-item .slider-text .subheading, .owl-carousel.home-slider .slider-item .slider-text .subheading p {
+    color: #fff;
+}
+.owl-carousel.home-slider .slider-item .slider-text .subheading p {
+    margin: 0;
+}
+
+/* Footer */
+.ftco-footer {
+    background: url(../images/bg-underwater.png) no-repeat !important;
+    background-size: cover !important;
+    background-position: bottom !important;
+}
+.footer-logo {
+    max-width: 150px;
+    height: auto;
+    padding: 5px; 
+}
+.ftco-footer .ftco-footer-widget ul.footer-menu li {
+    background: rgb(55 195 200 / 50%);
+    padding: 0 0.5em;
+}
+.ftco-footer .ftco-footer-widget h2, .ftco-footer .ftco-footer-widget ul li a, .ftco-footer .ftco-footer-widget p, .ftco-footer .ftco-footer-widget span {
+    color: #fff;
+}
+.ftco-footer .ftco-footer-widget h2 {
+    border-bottom: 1px solid #fff;
+}
+.ftco-footer-social li a {
+    background: rgb(255 255 255);
+}
+
+/* Owl Carouse */
+#multiple-product-section {
+    background: url(../images/fish/rsz_113982650_8.jpg);
+    background-size: cover;
+    background-position: center bottom;
+    padding: 3em;
+}
+#multiple-product-slider {
+    margin-top: 20px;
+    margin-bottom: 20px;
+}
+.multiple-product-slider-img-wrap {
+    border: 4px solid #fff;
+    max-width: 350px;
+    height: 200px;
+    overflow: hidden;
+}

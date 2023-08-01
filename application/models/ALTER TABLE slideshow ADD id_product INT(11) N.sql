@@ -1,0 +1,1 @@
+ALTER TABLE `slideshow` ADD `id_product` INT(11) NULL DEFAULT NULL AFTER `url_link`;

@@ -1,0 +1,96 @@
+/*
+ * Font Size
+ */
+.fs12px {
+    font-size: 12px;
+}
+
+ /* left sidemenu list */
+.nav-md ul.nav.child_menu li.current-page:before {
+    background: #1ABB9C;
+}
+
+ /*
+  * Padding
+  */
+.pl15 {
+    padding-left: 15px;
+}
+
+ /*
+  * Margin
+  */
+.mt15 {
+    margin-top: 15px;
+}
+
+ /*
+  * DataTable Selected
+  */
+table#dataTables-list tbody tr.selected {
+    background-color: #ccc;
+}
+
+/* */
+.btn.btn-app {
+    width: 60px;
+    height: 60px;
+    cursor: pointer;
+}
+
+/*
+ * iCheckbox
+ */
+.icheckbox_flat-green {
+    border: #28a745;
+}
+
+ /*
+  * Product thumbnail and primary photo uploda
+  */
+.fileinput .fileinput-new img {
+    position: relative;
+    max-width: 200px;
+    width: auto;
+    max-height: 200px;
+}
+.fileinput .fileinput-new span.btn-delete-photo {
+    cursor: pointer;
+    position: absolute;
+    line-height: 1.2;
+    border-radius: 50%;
+    left: 190px;
+    margin-top: -10px;
+}
+
+.outer-icon-list i.fa {
+    font-size: 25px !important;
+}
+
+#dataTables-list tbody tr td:first-child a span.fa{
+    font-size: 20px;
+}
+
+.nav.side-menu>li.current-page {
+    text-shadow: rgb(0 0 0 / 25%) 0 -1px 0;
+    background: -webkit-gradient(linear, left top, left bottom, from(#334556), to(#2C4257)),#2A3F54;
+    background: linear-gradient(#334556, #2C4257),#2A3F54;
+    -webkit-box-shadow: rgb(0 0 0 / 25%) 0 1px 0, inset rgb(255 255 255 / 16%) 0 1px 0;
+    box-shadow: rgb(0 0 0 / 25%) 0 1px 0, inset rgb(255 255 255 / 16%) 0 1px 0;
+}.nav.side-menu>li.active>a {
+    text-shadow: rgb(0 0 0 / 25%) 0 -1px 0;
+    background: -webkit-gradient(linear, left top, left bottom, from(#334556), to(#2C4257)),#2A3F54;
+    background: linear-gradient(#334556, #2C4257),#2A3F54;
+    -webkit-box-shadow: rgb(0 0 0 / 25%) 0 1px 0, inset rgb(255 255 255 / 16%) 0 1px 0;
+    box-shadow: rgb(0 0 0 / 25%) 0 1px 0, inset rgb(255 255 255 / 16%) 0 1px 0;
+}
+
+.reset_pass {
+    margin-top: 0 !important;
+}
+.login_content div .reset_pass {
+    margin-top: 0 !important;
+}
+.fileinput-upload {
+    border: 1px solid #ddd;
+}

@@ -1,0 +1,45 @@
+/*
+ * custom css by ffaaddiill
+ * email: fadilah.ajiq.surya@gmail.com
+ */
+
+ .top-logo {
+
+ }
+
+ .listing-img {
+ 	min-height: auto;
+ 	margin-top: -60px !important;
+ }
+
+ .whatsapp-button-chat, .whatsapp-button-chat:hover, .whatsapp-button-chat:visited {
+ 	color: #28b351;
+ }
+
+ .listing {
+ 	padding-top: 40px !important;
+ }
+
+ .listing-feature .number1 {
+ 	color: #28b351 !important;
+ 	font-weight: 500;
+ } .listing-feature .number0 {
+ 	color: #888 !important;
+ 	font-weight: 500;
+ }
+
+ .custom-charge-price {
+ 	
+ }
+
+ .cwhite {
+ 	color: #fff !important;
+ }
+
+ .single-page-admin-img {
+ 	max-width: 30%;
+ }
+
+ a.cwhite:hover {
+ 	color: #fff;
+ }

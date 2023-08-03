@@ -27,7 +27,7 @@
                             <table id="dataTables-list" class="table table-striped table-bordered" style="width:100%">
                                 <thead>
                                     <tr>
-                                        <th data-searchable="false" data-orderable="false" data-name="actions" data-classname="text-center" width="10px"><span class="glyphicon glyphicon-cog"></span></th>
+                                        
                                         <th data-name="nis">NIS</th>
                                         <th data-name="nama_murid">Nama</th>
                                         <th data-name="nama_kelas">Kelas</th>

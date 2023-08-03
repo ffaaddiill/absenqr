@@ -31,9 +31,25 @@ class Absensi_model extends CI_Model
             foreach ($param['search_field'] as $row => $val) {
                 if ($val['searchable'] == 'true') {
                     if ($i==0) {
-                        $this->db->like('LCASE(`'.$val['data'].'`)',strtolower($param['search_value']));
+                        if(strtolower($val['data']) == 'nama_murid') {
+                            $this->db->like('LCASE(`murid`.`'.$val['data'].'`)',strtolower($param['search_value']));
+                        } else if(strtolower($val['data']) == 'nama_kelas') {
+                            $this->db->like('LCASE(`kelas`.`nama_kelas`)',strtolower($param['search_value']));
+                        } else if(strtolower($val['data']) == 'nis') {
+                            $this->db->like('LCASE(`qrabsen`.`nis`)',strtolower($param['search_value']));
+                        } else {
+                            $this->db->like('LCASE(`qrabsen`.`'.$val['data'].'`)',strtolower($param['search_value']));
+                        }
                     } else {
-                        $this->db->or_like('LCASE(`'.$val['data'].'`)',strtolower($param['search_value']));
+                        if(strtolower($val['data']) == 'nama_murid') {
+                            $this->db->or_like('LCASE(`murid`.`'.$val['data'].'`)',strtolower($param['search_value']));
+                        } else if(strtolower($val['data']) == 'nama_kelas') {
+                            $this->db->or_like('LCASE(`kelas`.`nama_kelas`)',strtolower($param['search_value']));
+                        } else if(strtolower($val['data']) == 'nis') {
+                            $this->db->or_like('LCASE(`qrabsen`.`nis`)',strtolower($param['search_value']));
+                        } else {
+                            $this->db->or_like('LCASE(`qrabsen`.`'.$val['data'].'`)',strtolower($param['search_value']));
+                        }
                     }
                     $i++;
                 }
@@ -57,7 +73,7 @@ class Absensi_model extends CI_Model
         $this->db->join('kelas', 'kelas.id_kelas=murid.kelas', 'LEFT');
         
         $data = $this->db
-                ->select("*,id_qrabsen as id")
+                ->select('qrabsen.id_qrabsen, murid.id_murid, qrabsen.nis, qrabsen.absen_in, qrabsen.absen_out, qrabsen.absen_date, qrabsen.created_date, murid.nama_murid, murid.kelas, murid.tahun_ajaran, murid.jenis_kelamin, murid.id_status, kelas.nama_kelas, qrabsen.id_qrabsen as id')
                 //->where('is_delete', 0)
                 ->get('qrabsen')
                 ->result_array();
@@ -81,16 +97,34 @@ class Absensi_model extends CI_Model
             foreach ($param['search_field'] as $row => $val) {
                 if ($val['searchable'] == 'true') {
                     if ($i==0) {
-                        $this->db->like('LCASE(`'.$val['data'].'`)',strtolower($param['search_value']));
+                        if(strtolower($val['data']) == 'nama_murid') {
+                            $this->db->like('LCASE(`murid`.`'.$val['data'].'`)',strtolower($param['search_value']));
+                        } else if(strtolower($val['data']) == 'nama_kelas') {
+                            $this->db->like('LCASE(`kelas`.`nama_kelas`)',strtolower($param['search_value']));
+                        } else if(strtolower($val['data']) == 'nis') {
+                            $this->db->like('LCASE(`qrabsen`.`nis`)',strtolower($param['search_value']));
+                        } else {
+                            $this->db->like('LCASE(`qrabsen`.`'.$val['data'].'`)',strtolower($param['search_value']));
+                        }
                     } else {
-                        $this->db->or_like('LCASE(`'.$val['data'].'`)',strtolower($param['search_value']));
+                        if(strtolower($val['data']) == 'nama_murid') {
+                            $this->db->or_like('LCASE(`murid`.`'.$val['data'].'`)',strtolower($param['search_value']));
+                        } else if(strtolower($val['data']) == 'nama_kelas') {
+                            $this->db->or_like('LCASE(`kelas`.`nama_kelas`)',strtolower($param['search_value']));
+                        } else if(strtolower($val['data']) == 'nis') {
+                            $this->db->or_like('LCASE(`qrabsen`.`nis`)',strtolower($param['search_value']));
+                        } else {
+                            $this->db->or_like('LCASE(`qrabsen`.`'.$val['data'].'`)',strtolower($param['search_value']));
+                        }
                     }
                     $i++;
                 }
             }
             $this->db->group_end();
         }
-        $total_records = $this->db
+        $this->db->join('murid', 'murid.nis = qrabsen.nis', 'left');
+        $this->db->join('kelas', 'kelas.id_kelas = murid.kelas', 'left');
+        $total_records = $this->db->select('qrabsen.id_qrabsen, murid.id_murid, qrabsen.nis, qrabsen.absen_in, qrabsen.absen_out, qrabsen.absen_date, qrabsen.created_date, murid.nama_murid, murid.kelas, murid.tahun_ajaran, murid.jenis_kelamin, murid.id_status')
                 ->from('qrabsen')
                 //->where('is_delete', 0)
                 ->count_all_results();

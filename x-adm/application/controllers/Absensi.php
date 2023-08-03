@@ -26,6 +26,7 @@ class Absensi extends CI_Controller {
         $this->load->model('Absensi_model');
         $this->load->model('Murid_model');
         $this->load->model('Kelas_model');
+        $this->load->model('Tahun_ajaran_model');
         $this->class_path_name = $this->router->fetch_class();
     }
     
@@ -37,45 +38,6 @@ class Absensi extends CI_Controller {
         $this->data['add_url'] = site_url($this->class_path_name.'/add');
         $this->data['url_data'] = site_url($this->class_path_name.'/list_data/'.$kelas);
         $this->data['record_perpage'] = SHOW_RECORDS_DEFAULT;
-    }
-
-    public function teskolom() {
-        $this->layout = 'none';
-        $date_obj = date_range(date("Y-m-d"), date("Y-m-d", strtotime('+1 month')));
-        $date_arr = array();
-        foreach ($date_obj as $date) {
-            $date_arr[] = (array)$date;
-        }
-
-        $createCellColumns = createColumnsArray('ZZ');
-        $cell_range = array_slice( $createCellColumns, array_search('E', $createCellColumns), (count($date_arr)*2) );
-
-        debugvar($cell_range);
-        die(count($cell_range));
-    }
-
-    public function fadiltes() {
-        /*$data = [
-            [NULL, 2010, 2011, 2012],
-            ['Q1',   12,   15,   21],
-            ['Q2',   56,   73,   86],
-            ['Q3',   52,   61,   69],
-            ['Q4',   30,   32,    0],
-        ];
-
-        echo '<pre>';
-        print_r($data);
-        die();*/
-
-        $date_obj = date_range(date("Y-m-d", strtotime('-4 day
-            ')), date("Y-m-d", strtotime('+1 month')));
-        $date_arr = array();
-        foreach ($date_obj as $date) {
-            $date_arr[] = (array)$date;
-        }
-
-        debugvar($date_arr);
-        die(count($date_arr));
     }
 
     public function AbsenExportToExcel() {
@@ -212,158 +174,6 @@ class Absensi extends CI_Controller {
         header('Cache-Control: max-age=0');
         $writer->save('php://output');
     }
-
-    public function date_range_test() {
-        $this->layout = 'none';
-        // Step 1: Setting the Start and End Dates
-        $start_date = date_create(date("Y-m-d"));
-        $end_date = date_create('+1 month');
-         
-        // Step 2: Defining the Date Interval
-        $interval = new DateInterval('P1D');
-         
-        // Step 3: Creating the Date Range
-        $date_range = new DatePeriod($start_date, $interval, $end_date);
-         
-        // Step 4: Looping Through the Date Range
-
-       
-
-        echo '<pre>';
-        print_r($date_range);
-        die();
-    }
-
-    public function AbsenExportToExcel_old() {
-        $this->layout = 'none';
-
-        $kelas = array_reverse($this->Kelas_model->GetAllKelasData());
-
-        $murid = '';
-
-        /*debugvar($kelas);
-        die();*/
-
-        $spreadsheet = new Spreadsheet();
-
-        foreach($kelas as $keyk => $valk) {
-            $worksheet = new Worksheet($spreadsheet, $valk['nama_kelas']);
-
-            $spreadsheet->addSheet($worksheet, $keyk);
-            $spreadsheet->setActiveSheetIndexByName($valk['nama_kelas']);
-
-            $sheet = $spreadsheet->getActiveSheet();
-
-            $sheet->setCellValue('A1', 'No');
-            $sheet->setCellValue('B1', 'NIS');
-            $sheet->setCellValue('C1', 'Nama');
-            $sheet->setCellValue('D1', 'Kelas');
-            $sheet->setCellValue('E1', 'Jenis Kelamin');
-            
-            $date_obj = date_range(date("Y-m-d", strtotime('-5 day
-                ')), date("Y-m-d", strtotime('+1 month')));
-            $date_arr = array();
-            foreach ($date_obj as $date) {
-                $date_arr[] = (array)$date;
-            }
-
-            // debugvar($date_arr);
-            // die(count($date_arr));
-
-            $createCellColumns = createColumnsArray('ZZ');
-            $cell_range = array_slice( $createCellColumns, array_search('F', $createCellColumns), (count($date_arr)*2) );
-
-            foreach ($cell_range as $noo=>$i) {
-                if($noo % 2 == 0) {
-                    $sheet->setCellValue($i.'1', date("d-m-Y", strtotime($date_arr[($noo/2)]['date'])));
-                    $sheet->setCellValue($i.'2', 'Masuk');
-                } else {
-                    $sheet->mergeCells($cell_range[$noo-1].'1'.':'.$i.'1');
-                    $sheet->setCellValue($i.'1', date("d-m-Y", strtotime($date_arr[round($noo/2)-1]['date'])));
-                    $sheet->setCellValue($i.'2', 'Pulang');
-                }
-            }
-
-            $no = 1;
-            $x = 3;
-            $murid = $this->Murid_model->GetAllMuridForAbsen(['slug'=>$valk['slug'], 'date_arr'=>$date_arr]);
-
-            debugvar($murid);
-
-            foreach($murid as $row)
-            {
-                $sheet->setCellValue('A'.$x, $no++);
-                $sheet->setCellValue('B'.$x, $row['nis']);
-                $sheet->setCellValue('C'.$x, $row['nama_murid']);
-                $sheet->setCellValue('D'.$x, $row['nama_kelas']);
-                $sheet->setCellValue('E'.$x, $row['jenis_kelamin']);
-                foreach ($cell_range as $nooo=>$i) {
-                    $celldate = $sheet->getCell($i.'1')->getValue();
-                    if($nooo % 2 == 0) {
-                        /*foreach() {
-                            if($row['absen_in'] != NULL && !empty($row['absen_in']) && $celldate == date("d-m-Y", $row['absen_in'])) {
-                                $sheet->setCellValue($i.$x, date("H:i:s", $row['absen_in']));
-                            }
-                        }*/   
-                    } else {
-                        /*if($row['absen_out'] != NULL && !empty($row['absen_out']) && $celldate == date("d-m-Y", $row['absen_out'])) {
-                            $sheet->setCellValue($i.$x, date("H:i:s", $row['absen_out']));
-                        }*/
-                    }
-                }
-
-                $x++;
-            }
-
-            for ($i = 'A'; $i !=  $sheet->getHighestColumn(); $i++) {
-                $sheet->getColumnDimension($i)->setAutoSize(TRUE);
-                $spreadsheet->getActiveSheet()->getStyle($i.'1:'.$sheet->getHighestColumn().'2')
-                    ->getBorders()->getTop()->setBorderStyle(\PhpOffice\PhpSpreadsheet\Style\Border::BORDER_THIN);
-                $spreadsheet->getActiveSheet()->getStyle($i.'1:'.$sheet->getHighestColumn().'2')
-                    ->getBorders()->getBottom()->setBorderStyle(\PhpOffice\PhpSpreadsheet\Style\Border::BORDER_THIN);
-                $spreadsheet->getActiveSheet()->getStyle($i.'1:'.$sheet->getHighestColumn().'2')
-                    ->getBorders()->getLeft()->setBorderStyle(\PhpOffice\PhpSpreadsheet\Style\Border::BORDER_THIN);
-                $spreadsheet->getActiveSheet()->getStyle($i.'1:'.$sheet->getHighestColumn().'2')
-                    ->getBorders()->getRight()->setBorderStyle(\PhpOffice\PhpSpreadsheet\Style\Border::BORDER_THIN);
-
-                $spreadsheet->getActiveSheet()->getStyle($i.'2:'.$sheet->getHighestColumn().'2')
-                    ->getBorders()->getTop()->setBorderStyle(\PhpOffice\PhpSpreadsheet\Style\Border::BORDER_THIN);
-            }
-
-            $sheet->mergeCells('A1:A2');
-            $sheet->mergeCells('B1:B2');
-            $sheet->mergeCells('C1:C2');
-            $sheet->mergeCells('D1:D2');
-
-            $sheet->getStyle('A')
-                    ->getAlignment()->setHorizontal('center');
-
-            $sheet->getStyle('B1:'.$sheet->getHighestColumn().'2')
-                    ->getAlignment()->setHorizontal('center');
-
-            $sheet->getStyle('A1:'.$sheet->getHighestColumn().'2')
-                    ->getAlignment()->setVertical('center');
-
-            /*$sheet->getStyle('A1:'.$sheet->getHighestColumn().'2')
-                    ->getFill()->setFillType(Fill::FILL_SOLID)->getStartColor()->setARGB('ECECEC');*/
-
-        }
-        debugvar($murid);
-        die();
-
-        $writer = new Xlsx($spreadsheet);
-
-        $spreadsheet->setActiveSheetIndex(0);
-
-        $writer = new Xlsx($spreadsheet);
-        $filename = 'laporan-absensi-siswa-periode-1-bulan-'.date("d-m-Y").'-'.strtotime(date("d-m-Y H:i:s"));
-        
-        header('Content-Type: application/vnd.ms-excel');
-        header('Content-Disposition: attachment;filename="'. $filename .'.xlsx"'); 
-        header('Cache-Control: max-age=0');
-
-        $writer->save('php://output');
-    }
     
     /**
      * list data
@@ -393,8 +203,8 @@ class Absensi extends CI_Controller {
             $return['data'] = array();
             foreach ($records as $row => $record) {
                 $return['data'][$row]['DT_RowId'] = $record['id_qrabsen'];
-                $return['data'][$row]['actions'] = '
-                    <a href="'.site_url($this->class_path_name.'/edit/'.$record['id_qrabsen']).'"><span class="fa fa-edit" aria-hidden="true"></span></a>';
+                /*$return['data'][$row]['actions'] = '
+                    <a href="'.site_url($this->class_path_name.'/edit/'.$record['id_qrabsen']).'"><span class="fa fa-edit" aria-hidden="true"></span></a>';*/
                 $return['data'][$row]['nis'] = $record['nis'];
                 $return['data'][$row]['nama_murid'] = $record['nama_murid'];
                 $return['data'][$row]['nama_kelas'] = $record['nama_kelas'];

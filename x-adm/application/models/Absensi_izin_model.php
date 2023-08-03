@@ -2,14 +2,14 @@
 defined('BASEPATH') OR exit('No direct script access allowed');
 
 /**
- * Murid Model Class
- * @author ivan lubis <ivan.z.lubis@gmail.com>
+ * Absensi_izin Model Class
+ * @author Fadilah Ajiq Surya <fadilah.ajiq.surya@gmail.com>
  * @version 3.0
  * @category Model
- * @desc Murid model
+ * @desc Absensi_izin model
  * 
  */
-class Murid_model extends CI_Model
+class Absensi_izin_model extends CI_Model
 {
     /**
      * constructor
@@ -24,7 +24,7 @@ class Murid_model extends CI_Model
      * @param string $param
      * @return array data
      */
-    function GetAllMuridData($param=array()) {
+    function GetAllAbsensi_izinData($param=array()) {
         if (isset($param['search_value']) && $param['search_value'] != '') {
             $this->db->group_start();
             $i=0;
@@ -50,18 +50,14 @@ class Murid_model extends CI_Model
                 $this->db->order_by($param['order_field'],'desc');
             }
         } else {
-            $this->db->order_by('id_murid','desc');
+            $this->db->order_by('id_absensi_izin','desc');
         }
+        $this->db->join('murid', 'absensi_izin.nis = murid.nis', 'left');
         $this->db->join('kelas', 'murid.kelas = kelas.id_kelas', 'left');
-        $this->db->join('jenis_kelamin', 'murid.jenis_kelamin = jenis_kelamin.id_jenis_kelamin','LEFT');
-        //$this->db->join('qrabsen', 'qrabsen.nis=murid.nis', 'LEFT');
-        if(isset($param['slug'])) {
-            $this->db->where('kelas.slug', $param['slug']);
-        }
+        //$this->db->join('qrabsen', 'qrabsen.nis=absensi_izin.nis', 'LEFT');
         $data = $this->db
-                ->select("*,id_murid as id")
-                //->where('is_delete', 0)
-                ->get('murid')
+                ->select("*,id_absensi_izin as id")
+                ->get('absensi_izin')
                 ->result_array();
 
         // echo '<pre>';
@@ -70,54 +66,13 @@ class Murid_model extends CI_Model
         
         return $data;
     }
-
-    function GetAllMuridForAbsen($param=array()) {
-        if(isset($param['slug'])) {
-            $this->db->where('slug', $param['slug']);
-        }
-        /*$this->db->join('kelas', 'murid.kelas = kelas.id_kelas', 'left');
-        $this->db->join('jenis_kelamin', 'murid.jenis_kelamin = jenis_kelamin.id_jenis_kelamin','LEFT');*/
-        
-        $data_kelas_arr = $this->db
-                        ->select('kelas.id_kelas, kelas.nama_kelas, kelas.slug')
-                        ->order_by('kelas.id_kelas', 'desc')
-                        ->get('kelas')
-                        ->result_array(); 
-
-        foreach($data_kelas_arr as $dkey=>$valk) {
-            $data_kelas_arr[$dkey]['murid'] = $this->db
-                                    ->select("murid.nama_murid, murid.nis, murid.kelas, jenis_kelamin.jenis_kelamin, jenis_kelamin.huruf_jk as gender")
-                                    ->where('murid.id_status', 1)
-                                    ->where('murid.kelas', $valk['id_kelas'])
-                                    ->order_by('murid.id_murid', 'desc')
-                                    ->join('jenis_kelamin', 'murid.jenis_kelamin = jenis_kelamin.id_jenis_kelamin','LEFT')
-                                    ->get('murid')
-                                    ->result_array();
-
-            foreach($data_kelas_arr[$dkey]['murid'] as $mkey=>$valm) {
-                $data_kelas_arr[$dkey]['murid'][$mkey]['absen'] = $this->db
-                                            ->select('nis, absen_in, absen_out, absen_date')
-                                            ->where('nis', $valm['nis'])
-                                            ->where( 'absen_date >=', date("Y-m-d", strtotime(reset($param['date_arr']))))
-                                            ->where( 'absen_date <=', date("Y-m-d", strtotime(end($param['date_arr']))))
-                                            ->get('qrabsen')
-                                            ->result_array();
-            }
-        }
-
-        //debugvar($data_kelas_arr);
-       
-        //echo $this->db->last_query();
-        //die();
-        return $data_kelas_arr;
-    }
     
     /**
      * count records
      * @param string $param
      * @return int total records
      */
-    function CountAllMurid($param=array()) {
+    function CountAllAbsensi_izin($param=array()) {
         if (is_array($param) && isset($param['search_value']) && $param['search_value'] != '') {
             $this->db->group_start();
             $i=0;
@@ -133,14 +88,8 @@ class Murid_model extends CI_Model
             }
             $this->db->group_end();
         }
-        if(isset($param['slug'])) {
-            $this->db->where('kelas.slug', $param['slug']);
-        }
         $total_records = $this->db
-                ->from('murid')
-                //->where('is_delete', 0)
-                ->join('kelas', 'murid.kelas = kelas.id_kelas', 'left')
-                ->join('jenis_kelamin', 'murid.jenis_kelamin = jenis_kelamin.huruf_jk', 'left')
+                ->from('absensi_izin')
                 ->count_all_results();
         return $total_records;
     }
@@ -150,12 +99,12 @@ class Murid_model extends CI_Model
      * @param int $id
      * @return array data
      */
-    function GetMurid($id) {
+    function GetAbsensi_izin($id) {
         $data = $this->db
-                ->where('id_murid',$id)
+                ->where('id_absensi_izin',$id)
                 //->where('is_delete', 0)
                 ->limit(1)
-                ->get('murid')
+                ->get('absensi_izin')
                 ->row_array();
         return $data;
     }
@@ -166,7 +115,7 @@ class Murid_model extends CI_Model
      * @return int last inserted id
      */
     function InsertRecord($param) {
-        $this->db->insert('murid',$param);
+        $this->db->insert('absensi_izin',$param);
         $last_id = $this->db->insert_id();
         return $last_id;
     }
@@ -177,8 +126,8 @@ class Murid_model extends CI_Model
      * @param array $param
      */
     function UpdateRecord($id,$param) {
-        $this->db->where('id_murid',$id);
-        $this->db->update('murid',$param);
+        $this->db->where('id_absensi_izin',$id);
+        $this->db->update('absensi_izin',$param);
     }
     
     /**
@@ -186,13 +135,13 @@ class Murid_model extends CI_Model
      * @param int $id
      */
     function DeleteRecord($id) {
-        $this->db->where('id_murid',$id);
-        $this->db->delete('murid');
+        $this->db->where('id_absensi_izin',$id);
+        $this->db->delete('absensi_izin');
     }
 
     function delete_picture($id) {
-        $this->db->where('id_murid', $id);
-        $this->db->update('murid', array(
+        $this->db->where('id_absensi_izin', $id);
+        $this->db->update('absensi_izin', array(
             'primary_image'=>'',
             'picture_file_name'=>''
         ));
@@ -205,7 +154,7 @@ class Murid_model extends CI_Model
     function GetMaxPosition() {
         $max = $this->db
                 ->select('max(position)+1 as max_position')
-                ->get('murid')
+                ->get('absensi_izin')
                 ->row_array();
         if ($max) {
             return $max['max_position'];
@@ -215,10 +164,10 @@ class Murid_model extends CI_Model
     }
 
     /**
-     * insert murid with batch method
+     * insert absensi_izin with batch method
      * @param array $data
      */
-    function InsertMuridBatch($data){
+    function InsertAbsensi_izinBatch($data){
         $return = $data;
 
         foreach($data as $key=>$val) {
@@ -261,7 +210,7 @@ class Murid_model extends CI_Model
         $data = array_values($data);
 
         if(!empty($data)) {
-            $this->db->insert_batch('murid',$data);
+            $this->db->insert_batch('absensi_izin',$data);
         }
         
         foreach($return as $key=>$val) {
@@ -280,14 +229,14 @@ class Murid_model extends CI_Model
     }
 
     /**
-     * Get Murid by id
+     * Get Absensi_izin by id
      * @param int $id
      * @return array data
      */
-    function GetMuridById($id) {
+    function GetAbsensi_izinById($id) {
         $data = $this->db
-                ->where('id_murid',$id)
-                ->get('murid')
+                ->where('id_absensi_izin',$id)
+                ->get('absensi_izin')
                 ->result_array();
         return $data;
     }
@@ -296,9 +245,9 @@ class Murid_model extends CI_Model
      * delete site record
      * @param int $id
      */
-    function DeleteMurid($id){
-        $this->db->where('id_murid',$id);
-        $this->db->delete('murid');
+    function DeleteAbsensi_izin($id){
+        $this->db->where('id_absensi_izin',$id);
+        $this->db->delete('absensi_izin');
     }
 
     function getActiveProduct() {
@@ -311,17 +260,17 @@ class Murid_model extends CI_Model
         return $data;
     }
 
-    function getMuridProduct($id_murid) {
+    function getAbsensi_izinProduct($id_absensi_izin) {
         $data = $this->db
                 //->where('is_delete', 0)
                 ->where('id_status', 1)
-                ->where('id_murid', $id_murid)
-                ->get('murid')
+                ->where('id_absensi_izin', $id_absensi_izin)
+                ->get('absensi_izin')
                 ->row_array();
 
         return $data;
     }
     
 }
-/* End of file Murid_model.php */
-/* Location: ./application/models/Murid_model.php */
+/* End of file Absensi_izin_model.php */
+/* Location: ./application/models/Absensi_izin_model.php */

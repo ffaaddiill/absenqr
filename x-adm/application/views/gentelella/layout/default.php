@@ -272,8 +272,21 @@
             format: 'DD-MM-YYYY hh:kk:ss'
         });
 
-        if($('#publish_date').length > 0) {
-            $('#publish_date input').val(moment().format('DD-MM-YYYY hh:kk:ss'));
+        $('#tanggal_izin_start').datetimepicker({
+            locale: 'id-ID',
+            format: 'DD-MM-YYYY hh:kk:ss'
+        });
+
+        $('#tanggal_izin_end').datetimepicker({
+            locale: 'id-ID',
+            format: 'DD-MM-YYYY hh:kk:ss'
+        });
+
+        if($('#tanggal_izin_start').length > 0 ) {
+            $('#tanggal_izin_start input').val(moment().format('DD-MM-YYYY HH:kk:ss'));
+        }
+        if( $('#tanggal_izin_end').length > 0) {
+            $('#tanggal_izin_end input').val(moment().format('DD-MM-YYYY HH :kk:ss'));
         }
         </script>
     </body>

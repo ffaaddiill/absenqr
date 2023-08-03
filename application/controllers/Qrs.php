@@ -13,14 +13,14 @@ class Qrs extends CI_Controller {
     public function qs() {
         $dtnow = date("H:i:s");
         $dtmasuk = date("H:i:s", strtotime('09:00:00'));
-        $dtpulang = date("H:i:s", strtotime('15:30:00'));
+        $dtpulang = date("H:i:s", strtotime('15:00:00'));
 
         $this->data['dtmasuk'] = $dtmasuk;
         $this->data['dtpulang'] = $dtpulang;
 
         $this->data['disable_input'] = false;
 
-        if($dtnow >= date("H:i:s", strtotime('06:00:00')) && $dtnow < $dtmasuk) { //jam masuk
+        if($dtnow >= date("H:i:s", strtotime('05:00:00')) && $dtnow < $dtmasuk) { //jam masuk
             $this->data['disable_input'] = false;
         } elseif($dtnow >= $dtpulang && $dtnow < date("H:i:s", strtotime('20:00:00'))) { //jam pulang
             $this->data['disable_input'] = false;
@@ -47,9 +47,9 @@ class Qrs extends CI_Controller {
 
             $dtnow = date("H:i:s");
             $dtmasuk = date("H:i:s", strtotime('09:00:00'));
-            $dtpulang = date("H:i:s", strtotime('15:30:00'));
+            $dtpulang = date("H:i:s", strtotime('15:00:00'));
 
-            if($dtnow >= date("H:i:s", strtotime('06:00:00')) && $dtnow < $dtmasuk) { //jam masuk
+            if($dtnow >= date("H:i:s", strtotime('05:00:00')) && $dtnow < $dtmasuk) { //jam masuk
                 if(count($qr_arr) > 1) {
                     foreach($qr_arr as $key=>$val) {
                         $val = trim($val);

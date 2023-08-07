@@ -55,7 +55,7 @@ class Murid_model extends CI_Model
         $this->db->join('kelas', 'murid.kelas = kelas.id_kelas', 'left');
         $this->db->join('jenis_kelamin', 'murid.jenis_kelamin = jenis_kelamin.id_jenis_kelamin','LEFT');
         //$this->db->join('qrabsen', 'qrabsen.nis=murid.nis', 'LEFT');
-        if(isset($param['slug'])) {
+        if(isset($param['slug']) && !empty($param['slug'])) {
             $this->db->where('kelas.slug', $param['slug']);
         }
         $data = $this->db
@@ -72,7 +72,7 @@ class Murid_model extends CI_Model
     }
 
     function GetAllMuridForAbsen($param=array()) {
-        if(isset($param['slug'])) {
+        if(isset($param['slug']) && !empty($param['slug'])) {
             $this->db->where('slug', $param['slug']);
         }
         /*$this->db->join('kelas', 'murid.kelas = kelas.id_kelas', 'left');
@@ -105,10 +105,10 @@ class Murid_model extends CI_Model
             }
         }
 
-        //debugvar($data_kelas_arr);
+        // debugvar($data_kelas_arr);
        
-        //echo $this->db->last_query();
-        //die();
+        // echo $this->db->last_query();
+        // die();
         return $data_kelas_arr;
     }
     

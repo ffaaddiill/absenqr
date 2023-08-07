@@ -43,8 +43,8 @@
                                         <th data-searchable="false" data-orderable="false" data-name="actions" data-classname="text-center" width="10px"><span class="glyphicon glyphicon-cog"></span></th>
                                         <th data-name="nama_murid" data-searchable="true">Nama</th>
                                         <th data-name="nis" data-searchable="true">Nomor Induk</th>
-                                        <th data-name="kelas" data-searchable="true">Kelas</th>
-                                        <th data-name="huruf_jk" data-searchable="true">Gender</th>
+                                        <th data-name="nama_kelas" data-searchable="true">Kelas</th>
+                                        <th data-name="jenis_kelamin" data-searchable="true">Gender</th>
                                         <th data-name="id_status" data-searchable="true">Status</th>
                                         <th data-name="created_date" data-searchable="false">Created Date</th>
                                     </tr>

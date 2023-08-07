@@ -72,8 +72,8 @@ class Murid extends CI_Controller {
                 ';
                 $return['data'][$row]['nama_murid'] = $record['nama_murid'];
                 $return['data'][$row]['nis'] = $record['nis'];
-                $return['data'][$row]['kelas'] = $record['nama_kelas'];
-                $return['data'][$row]['huruf_jk'] = $record['huruf_jk'];
+                $return['data'][$row]['nama_kelas'] = $record['nama_kelas'];
+                $return['data'][$row]['jenis_kelamin'] = $record['jenis_kelamin'];
                 $return['data'][$row]['id_status'] = ($record['id_status'] == 1) ? 'Active' : 'Not Active';
                 $return['data'][$row]['created_date'] = custDateFormat($record['created_date'],'d M Y H:i:s');
             }

@@ -31,9 +31,33 @@ class Murid_model extends CI_Model
             foreach ($param['search_field'] as $row => $val) {
                 if ($val['searchable'] == 'true') {
                     if ($i==0) {
-                        $this->db->like('LCASE(`'.$val['data'].'`)',strtolower($param['search_value']));
+                        if(strtolower($val['data']) == 'nama_kelas') {
+                            $this->db->like('LCASE(`kelas`.`nama_kelas`)',strtolower($param['search_value']));
+                        } else if(strtolower($val['data']) == 'jenis_kelamin') {
+                            $this->db->like('LCASE(`jenis_kelamin`.`jenis_kelamin`)',strtolower($param['search_value']));
+                        } else if(strtolower($val['data']) == 'id_status') {
+                            if(strtolower($param['search_value']) == 'active') {
+                                $this->db->like('LCASE(`murid`.`id_status`)', '1');
+                            } else {
+                                $this->db->like('LCASE(`murid`.`id_status`)', '0');
+                            }
+                        } else {
+                            $this->db->like('LCASE(`murid`.`'.$val['data'].'`)',strtolower($param['search_value']));
+                        }
                     } else {
-                        $this->db->or_like('LCASE(`'.$val['data'].'`)',strtolower($param['search_value']));
+                        if(strtolower($val['data']) == 'nama_kelas') {
+                            $this->db->or_like('LCASE(`kelas`.`nama_kelas`)',strtolower($param['search_value']));
+                        } else if(strtolower($val['data']) == 'jenis_kelamin') {
+                            $this->db->or_like('LCASE(`jenis_kelamin`.`jenis_kelamin`)',strtolower($param['search_value']));
+                        } else if(strtolower($val['data']) == 'id_status') {
+                            if(strtolower($param['search_value']) == 'active') {
+                                $this->db->or_like('LCASE(`murid`.`id_status`)', '1');
+                            } else {
+                                $this->db->or_like('LCASE(`murid`.`id_status`)', '0');
+                            }
+                        } else {
+                            $this->db->or_like('LCASE(`murid`.`'.$val['data'].'`)',strtolower($param['search_value']));
+                        }
                     }
                     $i++;
                 }
@@ -71,6 +95,68 @@ class Murid_model extends CI_Model
         return $data;
     }
 
+    /**
+     * count records
+     * @param string $param
+     * @return int total records
+     */
+    function CountAllMurid($param=array()) {
+        if (is_array($param) && isset($param['search_value']) && $param['search_value'] != '') {
+            $this->db->group_start();
+            $i=0;
+            foreach ($param['search_field'] as $row => $val) {
+                if ($val['searchable'] == 'true') {
+                    if ($i==0) {
+                        if(strtolower($val['data']) == 'nama_kelas') {
+                            $this->db->like('LCASE(`kelas`.`nama_kelas`)',strtolower($param['search_value']));
+                        } else if(strtolower($val['data']) == 'jenis_kelamin') {
+                            $this->db->like('LCASE(`jenis_kelamin`.`jenis_kelamin`)',strtolower($param['search_value']));
+                        } else if(strtolower($val['data']) == 'id_status') {
+                            if(strtolower($param['search_value']) == 'active') {
+                                $this->db->like('LCASE(`murid`.`id_status`)', '1');
+                            } else {
+                                $this->db->like('LCASE(`murid`.`id_status`)', '0');
+                            }
+                        } else {
+                            $this->db->like('LCASE(`murid`.`'.$val['data'].'`)',strtolower($param['search_value']));
+                        }
+                    } else {
+                        if(strtolower($val['data']) == 'nama_kelas') {
+                            $this->db->or_like('LCASE(`kelas`.`nama_kelas`)',strtolower($param['search_value']));
+                        } else if(strtolower($val['data']) == 'jenis_kelamin') {
+                            $this->db->or_like('LCASE(`jenis_kelamin`.`jenis_kelamin`)',strtolower($param['search_value']));
+                        } else if(strtolower($val['data']) == 'id_status') {
+                            if(strtolower($param['search_value']) == 'active') {
+                                $this->db->or_like('LCASE(`murid`.`id_status`)', '1');
+                            } else {
+                                $this->db->or_like('LCASE(`murid`.`id_status`)', '0');
+                            }
+                        } else {
+                            $this->db->or_like('LCASE(`murid`.`'.$val['data'].'`)',strtolower($param['search_value']));
+                        }
+                    }
+                    $i++;
+                }
+            }
+            $this->db->group_end();
+        }
+        if(isset($param['slug']) && !empty($param['slug'])) {
+            $this->db->where('kelas.slug', $param['slug']);
+        }
+        $total_records = $this->db
+                ->from('murid')
+                //->where('is_delete', 0)
+                ->join('kelas', 'murid.kelas = kelas.id_kelas', 'left')
+                ->join('jenis_kelamin', 'murid.jenis_kelamin = jenis_kelamin.id_jenis_kelamin', 'left')
+                ->count_all_results();
+        return $total_records;
+    }
+
+    /**
+     * Get records for generate absen in excel format
+     * @param string $param
+     * @return int total records
+     */
     function GetAllMuridForAbsen($param=array()) {
         if(isset($param['slug']) && !empty($param['slug'])) {
             $this->db->where('slug', $param['slug']);
@@ -110,39 +196,6 @@ class Murid_model extends CI_Model
         // echo $this->db->last_query();
         // die();
         return $data_kelas_arr;
-    }
-    
-    /**
-     * count records
-     * @param string $param
-     * @return int total records
-     */
-    function CountAllMurid($param=array()) {
-        if (is_array($param) && isset($param['search_value']) && $param['search_value'] != '') {
-            $this->db->group_start();
-            $i=0;
-            foreach ($param['search_field'] as $row => $val) {
-                if ($val['searchable'] == 'true') {
-                    if ($i==0) {
-                        $this->db->like('LCASE(`'.$val['data'].'`)',strtolower($param['search_value']));
-                    } else {
-                        $this->db->or_like('LCASE(`'.$val['data'].'`)',strtolower($param['search_value']));
-                    }
-                    $i++;
-                }
-            }
-            $this->db->group_end();
-        }
-        if(isset($param['slug'])) {
-            $this->db->where('kelas.slug', $param['slug']);
-        }
-        $total_records = $this->db
-                ->from('murid')
-                //->where('is_delete', 0)
-                ->join('kelas', 'murid.kelas = kelas.id_kelas', 'left')
-                ->join('jenis_kelamin', 'murid.jenis_kelamin = jenis_kelamin.huruf_jk', 'left')
-                ->count_all_results();
-        return $total_records;
     }
     
     /**

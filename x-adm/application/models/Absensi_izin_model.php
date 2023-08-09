@@ -54,9 +54,10 @@ class Absensi_izin_model extends CI_Model
         }
         $this->db->join('murid', 'absensi_izin.nis = murid.nis', 'left');
         $this->db->join('kelas', 'murid.kelas = kelas.id_kelas', 'left');
+        $this->db->join('kategori_izin', 'absensi_izin.kategori_izin = kategori_izin.id_kategori_izin', 'left');
         //$this->db->join('qrabsen', 'qrabsen.nis=absensi_izin.nis', 'LEFT');
         $data = $this->db
-                ->select("*,id_absensi_izin as id")
+                ->select("*,id_absensi_izin as id, absensi_izin.created_date as created_date, kategori_izin.kategori_izin as kategori_izin")
                 ->get('absensi_izin')
                 ->result_array();
 
@@ -104,8 +105,32 @@ class Absensi_izin_model extends CI_Model
                 ->where('id_absensi_izin',$id)
                 //->where('is_delete', 0)
                 ->limit(1)
+                ->join('murid', 'murid.nis = absensi_izin.nis', 'left')
+                ->join('kelas', 'murid.kelas = kelas.id_kelas', 'left')
                 ->get('absensi_izin')
                 ->row_array();
+        return $data;
+    }
+
+    function getKategoriIzin() {
+        $data = $this->db
+                ->get('kategori_izin')
+                ->result_array();
+        return $data;
+    }
+
+    function getIzin($nis='', $date='') {
+        $data = $this->db
+                ->where('absensi_izin.nis', $nis)
+                ->like('absensi_izin.tanggal_izin_start', date('Y-m-d', strtotime($date)), 'both')
+                ->join('kategori_izin', 'kategori_izin.id_kategori_izin = absensi_izin.kategori_izin', 'left')
+                ->get('absensi_izin')
+                ->row_array();
+
+        // debugvar($data);
+        // echo $this->db->last_query();
+        // echo '<br><br>';
+
         return $data;
     }
     

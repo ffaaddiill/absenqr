@@ -17,20 +17,25 @@
     <div class="col-md-12 col-sm-12 ">
         <div class="x_panel">
             <div class="x_title">
-                <h2>List data</h2>
-                <ul class="nav navbar-right panel_toolbox">
-                    <li><a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
-                    </li>
-                    <li class="dropdown">
-                        <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false"><i class="fa fa-wrench"></i></a>
-                        <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                            <a class="dropdown-item" href="#">Settings 1</a>
-                            <a class="dropdown-item" href="#">Settings 2</a>
+                <div class="row">
+                    <div class="col-md-6 d-flex">
+                        <h2 class="d-flex align-items-center">List data</h2>
+                    </div>
+                    <div class="col-md-6 d-flex flex-row-reverse">
+                        <div class="pl15 mt15">
+                            <a href="<?=$add_url?>" class="btn btn-success">
+                                <i class="fa fa-plus"></i>
+                                &nbsp;Add
+                            </a>
+                            <a href="<?=$add_batch_url?>" class="btn btn-success">
+                                <i class="fa fa-upload">&nbsp;Upload Excel/CSV</i>
+                            </a>
+                            <button type="button" class="btn btn-danger" id="delete-record">
+                                <i class="fa fa-trash-o"></i>&nbsp;Delete
+                            </button>
                         </div>
-                    </li>
-                    <li><a class="close-link"><i class="fa fa-close"></i></a>
-                    </li>
-                </ul>
+                    </div>
+                </div>
                 <div class="clearfix"></div>
             </div>
             <div class="x_content">
@@ -50,17 +55,6 @@
                                     </tr>
                                 </thead>
                             </table>
-                        </div>
-                    </div>
-                </div>
-                <div class="row">
-                    <div class="col-sm-4">
-                        <div class="pl15 mt15">
-                            <a href="<?=$add_url?>" class="btn btn-success">Add</a>
-                            <a href="<?=$add_batch_url?>" class="btn btn-success">
-                                <i class="fa fa-upload ">&nbsp;Excel/CSV</i>
-                            </a>
-                            <button type="button" class="btn btn-danger" id="delete-record">Delete</button>
                         </div>
                     </div>
                 </div>

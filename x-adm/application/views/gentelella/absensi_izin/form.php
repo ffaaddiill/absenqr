@@ -31,7 +31,7 @@
 </script>
 <div class="page-title">
     <div class="title_left">
-        <h3><?=$page_title?> Form</h3>
+        <h3>Form Izin Siswa/Siswi</h3>
         <div class="form-message">
             <?php 
             if (isset($form_message)) {
@@ -73,7 +73,15 @@
                             <div class="col-md-12">
                                 <div class="form-group">
                                     <label for="nama_murid">Nama Murid</label>
-                                    <input type="text" class="form-control" name="nama_murid" id="nama_murid" value="<?= (isset($post['nama_murid'])) ? html_entity_decode($post['nama_murid']) : '' ?>"/>
+                                    <input type="text" class="form-control" id="nama_murid" value="<?= (isset($post['nama_murid'])) ? html_entity_decode($post['nama_murid']) : '' ?>" readonly />
+                                </div>
+                                <div class="form-group">
+                                    <label for="nis">NIS</label>
+                                    <input type="text" name="nis" class="form-control" value="<?= (isset($post['nis'])) ? html_entity_decode($post['nis']) : '' ?>" readonly />
+                                </div>
+                                <div class="form-group">
+                                    <label for="kelas">Kelas</label>
+                                    <input type="text" class="form-control" value="<?= (isset($post['nama_kelas'])) ? html_entity_decode($post['nama_kelas']) : '' ?>" readonly />
                                 </div>
                             </div>
                         </div>
@@ -109,33 +117,33 @@
                     <div class="col-sm-12">
                         <!-- BEGIN extra option -->
                         <div class="form-group">
-                            <label for="nis">NIS</label>
-                            <input type="text" class="form-control" name="nis" id="nis" value="<?= (isset($post['nis'])) ? html_entity_decode($post['nis']) : '' ?>"/>
-                        </div>
-                        <div class="form-group">
-                            <label for="kelas">Kelas</label>
-                            <select id="kelas" name="kelas" class="form-control">
-                                <?php foreach($kelas as $key=>$val) : ?>
-                                    <option <?= (isset($post['kelas']) && $post['kelas']==$val['id_kelas']) ? 'selected="selected"' : ' '?> value="<?=$val['id_kelas']?>"><?=$val['nama_kelas']?></option>
+                            <label for="kategori_izin">Kategori Izin</label>
+                            <select id="kategori_izin" name="kategori_izin" class="form-control">
+                                <?php foreach($kategori_izin as $key=>$val) : ?>
+                                    <option <?= (isset($post['kategori_izin']) && $post['kategori_izin']==$val['id_kategori_izin']) ? 'selected="selected"' : ' '?> value="<?=$val['id_kategori_izin']?>"><?=$val['kategori_izin']?></option>
                                 <?php endforeach; ?>
                             </select>
                         </div>
                         <div class="form-group">
-                            <label for="tanggal_izin_start">Tanggal izin</label>
-                            <div class='input-group date' id='tanggal_izin_start'>
-                               <input type='text' name="tanggal_izin_start" class="form-control" value="<?= (isset($post['tanggal_izin_start'])) ? $post['tanggal_izin_start'] : '' ?>"/>
-                               <span style="padding: 8px 12px;cursor: pointer;" class="input-group-addon"><i class="fa fa-calendar" style="font-size: 20px" aria-hidden="true"></i></span>
+                            <label for="tanggal_izin_startInput" class="form-label">Tanggal izin</label>
+                            <div class="input-group log-event" id="tanggal_izin_start" data-td-target-input="nearest" data-td-target-toggle="nearest">
+                                <input name="tanggal_izin_start" id="tanggal_izin_startInput" type="text" class="form-control" data-td-target="#tanggal_izin_start" placeholder="Klik dan pilih tanggal" data-td-toggle="datetimepicker" autocomplete="off" value="<?= (isset($post['tanggal_izin_start'])) ? html_entity_decode($post['tanggal_izin_start']) : '' ?>">
+                                <span class="input-group-text" data-td-target="#tanggal_izin_start" data-td-toggle="datetimepicker">
+                                <i class="fa fa-calendar"></i>
+                                </span>
                             </div>
                         </div>
                         <div class="form-group">
-                            <label for="tanggal_izin_end">Sampai dengan tanggal</label>
-                            <div class='input-group date' id='tanggal_izin_end'>
-                               <input type='text' name="tanggal_izin_end" class="form-control" value="<?= (isset($post['tanggal_izin_end'])) ? $post['tanggal_izin_end'] : '' ?>" />
-                               <span style="padding: 8px 12px;cursor: pointer;" class="input-group-addon"><i class="fa fa-calendar" style="font-size: 20px" aria-hidden="true"></i></span>
+                            <label for="tanggal_izin_endInput" class="form-label">Sampai dengan tanggal</label>
+                            <div class="input-group log-event" id="tanggal_izin_end" data-td-target-input="nearest" data-td-target-toggle="nearest">
+                                <input name="tanggal_izin_end" id="tanggal_izin_endInput" type="text" class="form-control" data-td-target="#tanggal_izin_end" placeholder="Klik dan pilih tanggal" data-td-toggle="datetimepicker" autocomplete="off" value="<?= (isset($post['tanggal_izin_end'])) ? html_entity_decode($post['tanggal_izin_end']) : '' ?>">
+                                <span class="input-group-text" data-td-target="#tanggal_izin_end" data-td-toggle="datetimepicker">
+                                <i class="fa fa-calendar"></i>
+                                </span>
                             </div>
                         </div>
                         <div class="form-group">
-                            <label for="description">Keterangan izin</label>
+                            <label for="description">Keterangan tambahan</label>
                             <textarea class="form-control" name="keterangan" id="keterangan" rows="8"><?= (isset($post['keterangan'])) ? $post['keterangan'] : '' ?></textarea>
                         </div>
                         <!-- END of extra option -->

@@ -68,7 +68,7 @@ class Murid extends CI_Controller {
             foreach ($records as $row => $record) {
                 $return['data'][$row]['DT_RowId'] = $record['id_murid'];
                 $return['data'][$row]['actions'] = '
-                    <a href="'.site_url($this->class_path_name.'/edit/'.$record['id_murid']).'"><span class="fa fa-edit" aria-hidden="true"></span></a>
+                    <a href="'.site_url($this->class_path_name.'/view/'.$record['id_murid']).'"><span class="fa fa-book" aria-hidden="true"></span></a>
                 ';
                 $return['data'][$row]['nama_murid'] = $record['nama_murid'];
                 $return['data'][$row]['nis'] = $record['nis'];
@@ -268,7 +268,7 @@ class Murid extends CI_Controller {
         }
         $this->data['page_title'] = 'Edit';
         $this->data['form_action'] = site_url($this->class_path_name.'/edit/'.$id);
-        $this->data['cancel_url'] = site_url($this->class_path_name);
+        $this->data['cancel_url'] = site_url($this->class_path_name.'/view/'.$id);
         $this->data['delete_picture_url'] = site_url($this->class_path_name.'/delete_picture/'.$id);
 
         if ($this->input->post()) {
@@ -334,6 +334,32 @@ class Murid extends CI_Controller {
         if (isset($this->error)) {
             $this->data['form_message'] = $this->error;
         }
+    }
+
+    /**
+     * view page
+     * @param int $id
+     */
+    public function view($id=0) {
+        if (!$id) {
+            redirect($this->class_path_name);
+        }
+        $record = $this->Murid_model->GetMurid($id);
+        if (!$record) {
+            redirect($this->class_path_name);
+        }
+        $this->data['page_title'] = 'Edit';
+        $this->data['back_url'] = site_url($this->class_path_name);
+        $this->data['edit_url'] = site_url($this->class_path_name.'/edit/'.$id);
+        $this->data['izin_url'] = site_url('absensi_izin/add/'.$id);
+        $this->data['delete_picture_url'] = site_url($this->class_path_name.'/delete_picture/'.$id);
+        $this->data['class_path_name'] = $this->class_path_name;
+        $this->data['template'] = $this->class_path_name.'/form';
+        $this->data['post'] = $record;
+        if (isset($this->error)) {
+            $this->data['form_message'] = $this->error;
+        }
+        $this->data['template'] = 'murid/view';
     }
     
     /**

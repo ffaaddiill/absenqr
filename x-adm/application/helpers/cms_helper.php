@@ -325,11 +325,13 @@ function custDateFormat($string, $format = 'Y-m-d H:i:s') {
 function alert_box($msg,$type='warning',$close_button=TRUE) {
     $html = '';
     if ($msg != '') {
-        $html .= '<div class="alert alert-' . $type . ' alert-dismissible" role="alert">';
+        $html .= '<div class="row alert alert-' . $type . ' alert-dismissible" role="alert" style="padding-right: 0">';
+        $html .= '<div class="col-md-12">';
         if ($close_button) {
-            $html .= '<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>';
+            $html .= '<button type="button" class="close" data-dismiss="alert" aria-label="Close" style="padding: 0 1.25rem"><span aria-hidden="true">&times;</span></button>';
         }
-        $html .= $msg;
+        $html .= '<span style="font-size: 1.3em"><i class="glyphicon '.($type=='success'?'glyphicon-info-sign':($type=='warning'?'glyphicon-warning-sign':'glyphicon-remove-sign')).'" style="font-size: 1.3em"></i>&nbsp;'.$msg.'</span>';
+        $html .= '</div>';
         $html .= '</div>';
     }
     return $html;

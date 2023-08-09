@@ -67,9 +67,10 @@ class Absensi_izin extends CI_Controller {
                 $return['data'][$row]['nama_murid'] = $record['nama_murid'];
                 $return['data'][$row]['nis'] = $record['nis'];
                 $return['data'][$row]['nama_kelas'] = $record['nama_kelas'];
+                $return['data'][$row]['kategori_izin'] = $record['kategori_izin'];
                 $return['data'][$row]['tanggal_izin_start'] = $record['tanggal_izin_start'];
                 $return['data'][$row]['tanggal_izin_end'] = $record['tanggal_izin_end'];
-                $return['data'][$row]['created_date'] = date('d-m-Y H:i:s', $record['created_date']);
+                $return['data'][$row]['created_date'] = date('d-m-Y H:i:s', strtotime($record['created_date']));
             }
             header('Content-type: application/json');
             exit (
@@ -82,17 +83,34 @@ class Absensi_izin extends CI_Controller {
     /**
      * add page
      */
-    public function add() {
+    public function add($userid=NULL) {
+        if(empty($userid)) {
+            redirect($this->class_path_name);
+        }
         $this->data['page_title'] = 'Add';
-        $this->data['form_action'] = site_url($this->class_path_name.'/add');
-        $this->data['cancel_url'] = site_url($this->class_path_name);
+        $this->data['form_action'] = site_url($this->class_path_name.'/add/'.$userid);
+        $this->data['cancel_url'] = site_url('murid/view/'.$userid);
+
+        $murid = $this->Murid_model->GetMurid($userid);
+        $kategori_izin = $this->Absensi_izin_model->getKategoriIzin();
+
+        $this->data['post'] = $murid;
+        $this->data['kategori_izin'] = $kategori_izin;
 
         if ($this->input->post()) {
             $post = $this->input->post();
 
+            $insert_post = array(
+                'nis'=>$post['nis'],
+                'kategori_izin'=>$post['kategori_izin'],
+                'tanggal_izin_start'=>date('Y-m-d H:i:s', strtotime($post['tanggal_izin_start'])),
+                'tanggal_izin_end'=>date('Y-m-d H:i:s', strtotime($post['tanggal_izin_end'])),
+                'keterangan'=>$post['keterangan']
+            );
+
             if ($this->validateForm()) {
                 // insert data
-                $id = $this->Absensi_izin_model->InsertRecord($post);
+                $id = $this->Absensi_izin_model->InsertRecord($insert_post);
 
                 // insert to log
                 $data_log = array(
@@ -105,7 +123,7 @@ class Absensi_izin extends CI_Controller {
                 // end insert to log
                 $this->session->set_flashdata('flash_message', alert_box('Success.','success'));
                 
-                redirect($this->class_path_name);
+                redirect(site_url('murid/view/'.$userid));
             }
             $this->data['class_path_name'] = $this->class_path_name;
             $this->data['post'] = $post;
@@ -128,6 +146,11 @@ class Absensi_izin extends CI_Controller {
             redirect($this->class_path_name);
         }
         $record = $this->Absensi_izin_model->GetAbsensi_izin($id);
+        $record['tanggal_izin_start'] = date("d-m-Y H:i:s", strtotime($record['tanggal_izin_start']));
+        $record['tanggal_izin_end'] = date("d-m-Y H:i:s", strtotime($record['tanggal_izin_end']));
+        $kategori_izin = $this->Absensi_izin_model->getKategoriIzin();
+
+        $this->data['kategori_izin'] = $kategori_izin;
         $this->data['kelas'] = $this->Kelas_model->GetAllKelasData();
         if (!$record) {
             redirect($this->class_path_name);
@@ -141,22 +164,11 @@ class Absensi_izin extends CI_Controller {
             $post = $this->input->post();
             if ($this->validateForm($id)) {
                 $post['modified_date'] = date('Y-m-d H:i:s');
-                $post['id_status'] = (isset($post['id_status'])) ? 1 : 0;
+                $post['tanggal_izin_start'] = date('Y-m-d H:i:s', strtotime($post['tanggal_izin_start']));
+                $post['tanggal_izin_end'] = date('Y-m-d H:i:s', strtotime($post['tanggal_izin_end']));
 
                 $this->Absensi_izin_model->UpdateRecord($id,$post);
-                
-                $post_image = $_FILES;
-                if ($post_image['primary_image']['tmp_name']) {
-                    if ($record['primary_image'] != '' && file_exists(UPLOAD_DIR.$record['primary_image'])) {
-                        unlink(UPLOAD_DIR.$record['primary_image']);
-                    }
-                    $filename = url_title($post['title'],'_',true);
-                    /**
-                     * activated*/
-                    $picture_db = file_copy_to_folder($post_image['primary_image'], UPLOAD_DIR.$this->class_path_name, $filename);
-                    $this->Absensi_izin_model->UpdateRecord($id,array('primary_image'=>$this->class_path_name.'/'.$picture_db,'picture_file_name'=>$picture_db));
-                     
-                }
+
                 // insert to log
                 $data_log = array(
                     'id_user' => id_auth_user(),
@@ -262,8 +274,8 @@ class Absensi_izin extends CI_Controller {
         $post = $this->input->post();
         $config = array(
             array(
-                'field' => 'keterangan',
-                'label' => 'Keterangan Izin',
+                'field' => 'kategori_izin',
+                'label' => 'Kategori Izin',
                 'rules' => 'required'
             ),
             array(

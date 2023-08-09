@@ -208,6 +208,9 @@ class Murid_model extends CI_Model
                 ->where('id_murid',$id)
                 //->where('is_delete', 0)
                 ->limit(1)
+                ->join('kelas', 'murid.kelas = kelas.id_kelas', 'left')
+                ->join('jenis_kelamin', 'murid.jenis_kelamin = jenis_kelamin.id_jenis_kelamin','LEFT')
+                ->join('tahun_ajaran', 'murid.tahun_ajaran = tahun_ajaran.id_tahun_ajaran', 'left')
                 ->get('murid')
                 ->row_array();
         return $data;

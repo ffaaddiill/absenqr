@@ -24,6 +24,7 @@ class Absensi extends CI_Controller {
     function __construct() {
         parent::__construct();
         $this->load->model('Absensi_model');
+        $this->load->model('Absensi_izin_model');
         $this->load->model('Murid_model');
         $this->load->model('Kelas_model');
         $this->load->model('Tahun_ajaran_model');
@@ -52,7 +53,10 @@ class Absensi extends CI_Controller {
             'L / P'
         );
 
-        $date_obj = date_range(date("Y-m-d"), date("Y-m-d", strtotime('+1 month')));
+        $date_obj = date_range(date("Y-m-d"/*, strtotime('-14 days')*/), date("Y-m-d", strtotime('+1 month')));
+
+        // debugvar($date_obj);
+        // die();
 
         $date_arr = array();
         foreach ($date_obj as $date) {
@@ -87,6 +91,8 @@ class Absensi extends CI_Controller {
                 'A1'
             );
 
+            //echo $valk['nama_kelas'] . '<br>';
+
             foreach ($cell_range as $noo=>$i) {
                 if($noo % 2 == 0) {
                     $sheet->setCellValue($i.'1', date("d-m-Y", strtotime($date_arr[($noo/2)])));
@@ -99,6 +105,7 @@ class Absensi extends CI_Controller {
             }
 
             foreach ($valk['murid'] as $muridkey=>$valmurid) {
+                //echo '--'.$valmurid['nama_murid'] .'.'.$valmurid['nis'] .'<br>';
                 $sheet->setCellValue('A'.$x, $no++);
                 $sheet->setCellValueExplicit('B'.$x, $valmurid['nis'], \PhpOffice\PhpSpreadsheet\Cell\DataType::TYPE_STRING);
                 $sheet->setCellValue('C'.$x, $valmurid['nama_murid']);
@@ -106,13 +113,37 @@ class Absensi extends CI_Controller {
                 foreach($valmurid['absen'] as $absenk=>$valabsen) {
                     foreach ($cell_range as $nooo=>$i) {
                         $celldate = $sheet->getCell($i.'1')->getValue();
+                        //echo $celldate;
+                        $get_izin = $this->Absensi_izin_model->getIzin($valmurid['nis'], $celldate);
                         if($nooo % 2 == 0) {
-                            if($valabsen['absen_in'] != NULL && !empty($valabsen['absen_in']) && $celldate == date("d-m-Y", $valabsen['absen_in'])) {
-                                $sheet->setCellValue($i.$x, date("H:i:s", $valabsen['absen_in']));
+                            //echo 'cell genap ' . $i . $x. '<br>';
+                            if(!empty($get_izin)) {
+                                $sheet->setCellValue($i.$x, $get_izin['kategori_izin']);
+                                $spreadsheet->getActiveSheet()->getStyle($i.$x)->getFill()
+                                    ->setFillType(\PhpOffice\PhpSpreadsheet\Style\Fill::FILL_SOLID)
+                                    ->getStartColor()->setARGB('FFFF00');
+                            } else {
+                                if($valabsen['absen_in'] != NULL && !empty($valabsen['absen_in']) && $celldate == date("d-m-Y", $valabsen['absen_in'])) {
+
+                                    $sheet->setCellValue($i.$x, date("H:i:s", $valabsen['absen_in']));
+                                }
                             }
                         } else {
-                            if($valabsen['absen_out'] != NULL && !empty($valabsen['absen_out']) && $celldate == date("d-m-Y", $valabsen['absen_out'])) {
-                                $sheet->setCellValue($i.$x, date("H:i:s", $valabsen['absen_out']));
+                            //echo 'cell ganjil ' . $i . $x. '<br>';
+                            if(!empty($get_izin)) {
+                                if($get_izin['tanggal_izin_end'] > date("Y-m-d H:i:s", strtotime('15:00:00'))) {
+                                    $sheet->setCellValue($i.$x, $get_izin['kategori_izin']);
+                                    $spreadsheet->getActiveSheet()->getStyle($i.$x)->getFill()
+                                    ->setFillType(\PhpOffice\PhpSpreadsheet\Style\Fill::FILL_SOLID)
+                                    ->getStartColor()->setARGB('FFFF00');
+                                } else {
+                                    $sheet->setCellValue($i.$x, date("H:i:s", $valabsen['absen_out']));
+                                }
+                            } else {
+                                if($valabsen['absen_out'] != NULL && !empty($valabsen['absen_out']) && $celldate == date("d-m-Y", $valabsen['absen_out'])) {
+                                            
+                                    $sheet->setCellValue($i.$x, date("H:i:s", $valabsen['absen_out']));
+                                }
                             }
                         }
                     }

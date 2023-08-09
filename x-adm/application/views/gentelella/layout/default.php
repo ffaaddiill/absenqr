@@ -23,7 +23,7 @@
         <!-- Cropper -->
         <link href="<?=ASSETS_URL?>vendors/cropper/dist/cropper.min.css" rel="stylesheet">
         <!-- Datetimepicker style -->
-        <link rel="stylesheet" type="text/css" href="<?=ASSETS_URL?>vendors/bootstrap-datetimepicker/css/bootstrap-datetimepicker.min.css">
+        <!-- <link rel="stylesheet" type="text/css" href="<?=ASSETS_URL?>vendors/bootstrap-datetimepicker/css/bootstrap-datetimepicker.min.css"> -->
         <!-- DataTables -->
         <link href="<?=ASSETS_URL?>vendors/datatables.net-bs/css/dataTables.bootstrap.min.css" rel="stylesheet">
         <link href="<?=ASSETS_URL?>vendors/datatables.net-buttons-bs/css/buttons.bootstrap.min.css" rel="stylesheet">
@@ -44,7 +44,7 @@
         </script>
 
         <!-- Moment.js -->
-        <script src="<?=ASSETS_URL?>vendors/bootstrap-datetimepicker/moment-with-locales.js"></script>
+        <?php /*<script src="<?=ASSETS_URL?>vendors/bootstrap-datetimepicker/moment-with-locales.js"></script> */ ?>
 
         <!-- CKEditor 4 -->
         <script src="<?=ASSETS_URL?>vendors/ckeditor/ckeditor.js"></script>
@@ -212,7 +212,12 @@
                 <!-- /top navigation -->
                 <!-- page content -->
                 <div class="right_col" role="main" style="min-height: 947px;">
-                    <div class="">
+                    <div class="main-content">
+                        <!-- /.flash-message -->
+                        <?php if (isset($flash_message)) {
+                            echo $flash_message;
+                        }
+                        ?><!-- /.flash-message -->
                         <?=$content?>
                     </div>
                 </div>
@@ -231,7 +236,7 @@
         <!-- Bootstrap -->
         <script src="<?=ASSETS_URL?>vendors/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
         <!-- Datetimepicker -->
-        <script src="<?=ASSETS_URL?>vendors/bootstrap-datetimepicker/js/bootstrap-datetimepicker.min.js"></script>
+        <!-- <script src="<?=ASSETS_URL?>vendors/bootstrap-datetimepicker/js/bootstrap-datetimepicker.min.js"></script> -->
         <!-- FastClick -->
         <script src="<?=ASSETS_URL?>vendors/fastclick/lib/fastclick.js"></script>
         <!-- NProgress -->
@@ -258,11 +263,100 @@
         <?php /* <script src="<?=ASSETS_URL?>vendors/jquery-cropper/cropper_upload_function.js"></script>*/ ?>
         <!-- iCheck -->
         <script src="<?=ASSETS_URL?>vendors/iCheck/icheck.min.js"></script>
+
+        <!---- Datetime Picker ---->
+        <!-- Popper.js -->
+        <script src="<?=ASSETS_URL?>vendors/popper/popper.min.js"></script>
+        <!-- tempus dominus datetime picker from getdatepicker.com -->
+        <script src="<?=ASSETS_URL?>vendors/tempus-dominus-datepicker/js/tempus-dominus.min.js"></script>
+        <!-- jQuery Provider for tempus dominus datepicker -->
+        <script src="<?=ASSETS_URL?>vendors/tempus-dominus-datepicker/js/jQuery-provider.min.js"></script>
+        <!-- tempus dominus style -->
+        <link rel="stylesheet" href="<?=ASSETS_URL?>vendors/tempus-dominus-datepicker/css/tempus-dominus.min.css">
+        <!---- End of Datetime Picker ---->
+
+        <?php /*
+        <!-- Popperjs -->
+        <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js" integrity="sha256-BRqBN7dYgABqtY9Hd4ynE+1slnEw+roEPFzQ7TRRfcg=" crossorigin="anonymous"></script>
+        <!-- Tempus Dominus JavaScript -->
+        <script src="https://cdn.jsdelivr.net/npm/@eonasdan/tempus-dominus@6.7.11/dist/js/tempus-dominus.min.js" crossorigin="anonymous"></script>
+
+        <!-- jQuery Provider for tempus dominus datepicker -->
+        <script src="<?=ASSETS_URL?>vendors/tempus-dominus-datepicker/js/jQuery-provider.min.js"></script>
+
+        <!-- Tempus Dominus Styles -->
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@eonasdan/tempus-dominus@6.7.11/dist/css/tempus-dominus.min.css" crossorigin="anonymous">
+        */ ?>
+
         <!-- Custom Theme Scripts -->
         <script src="<?=ASSETS_URL?>build/js/custom.min.js"></script>
+        <style type="text/css">
+            .tempus-dominus-widget .time-container.td-collapse.show .time-container-clock .separator {
+                border-top: 0px none;
+            }
+            .tempus-dominus-widget .time-container.td-collapse.show .time-container-clock > .separator ~ .separator {
+                border-top: 1px solid #fff !important;
+                margin-top: 0px !important;
+                padding-top: 0px !important;
+                font-weight: bold;
+                font-size: 1.5em;
+            }
+            .tempus-dominus-widget div i {
+                font-size: 1.5em;
+            }
+        </style>
         <script type="text/javascript">
-        
-        $('#end_date').datetimepicker({
+        $('#tanggal_izin_start').tempusDominus({
+            display: {
+                icons: {
+                    time: 'glyphicon glyphicon-time',
+                    date: 'fa fa-calendar',
+                    up: 'fa fa-arrow-up',
+                    down: 'fa fa-arrow-down',
+                    previous: 'fa fa-chevron-left',
+                    next: 'fa fa-chevron-right',
+                    today: 'fa fa-calendar-check',
+                    clear: 'glyphicon glyphicon-trash',
+                    close: 'fa fa-x',
+                },
+                buttons: {
+                    today: true,
+                    clear: true,
+                    close: true,
+                }
+            },
+            localization: {
+                locale: 'id-ID',
+                format: 'dd-MM-yyyy HH:mm:ss'
+            }
+        });
+
+        $('#tanggal_izin_end').tempusDominus({
+            display: {
+                icons: {
+                    time: 'glyphicon glyphicon-time',
+                    date: 'fa fa-calendar',
+                    up: 'fa fa-arrow-up',
+                    down: 'fa fa-arrow-down',
+                    previous: 'fa fa-chevron-left',
+                    next: 'fa fa-chevron-right',
+                    today: 'fa fa-calendar-check',
+                    clear: 'glyphicon glyphicon-trash',
+                    close: 'fa fa-x',
+                },
+                buttons: {
+                    today: true,
+                    clear: true,
+                    close: true,
+                }
+            },
+            localization: {
+                locale: 'id-ID',
+                format: 'dd-MM-yyyy HH:mm:ss'
+            }
+        });
+
+        /*$('#end_date').datetimepicker({
             locale: 'id-ID',
             format: 'DD-MM-YYYY hh:kk:ss'
         });
@@ -270,24 +364,7 @@
         $('#publish_date').datetimepicker({
             locale: 'id-ID',
             format: 'DD-MM-YYYY hh:kk:ss'
-        });
-
-        $('#tanggal_izin_start').datetimepicker({
-            locale: 'id-ID',
-            format: 'DD-MM-YYYY hh:kk:ss'
-        });
-
-        $('#tanggal_izin_end').datetimepicker({
-            locale: 'id-ID',
-            format: 'DD-MM-YYYY hh:kk:ss'
-        });
-
-        if($('#tanggal_izin_start').length > 0 ) {
-            $('#tanggal_izin_start input').val(moment().format('DD-MM-YYYY HH:kk:ss'));
-        }
-        if( $('#tanggal_izin_end').length > 0) {
-            $('#tanggal_izin_end input').val(moment().format('DD-MM-YYYY HH :kk:ss'));
-        }
+        });*/
         </script>
     </body>
 </html>

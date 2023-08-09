@@ -175,7 +175,7 @@ class Murid_model extends CI_Model
                                     ->select("murid.nama_murid, murid.nis, murid.kelas, jenis_kelamin.jenis_kelamin, jenis_kelamin.huruf_jk as gender")
                                     ->where('murid.id_status', 1)
                                     ->where('murid.kelas', $valk['id_kelas'])
-                                    ->order_by('murid.id_murid', 'desc')
+                                    ->order_by('murid.nama_murid', 'asc')
                                     ->join('jenis_kelamin', 'murid.jenis_kelamin = jenis_kelamin.id_jenis_kelamin','LEFT')
                                     ->get('murid')
                                     ->result_array();

@@ -13,7 +13,7 @@ class Qrs extends CI_Controller {
     public function qs() {
         $dtnow = date("H:i:s");
         $dtmasuk = date("H:i:s", strtotime('09:00:00'));
-        $dtpulang = date("H:i:s", strtotime('15:00:00'));
+        $dtpulang = date("H:i:s", strtotime('14:59:00'));
 
         $this->data['dtmasuk'] = $dtmasuk;
         $this->data['dtpulang'] = $dtpulang;
@@ -47,7 +47,7 @@ class Qrs extends CI_Controller {
 
             $dtnow = date("H:i:s");
             $dtmasuk = date("H:i:s", strtotime('09:00:00'));
-            $dtpulang = date("H:i:s", strtotime('15:00:00'));
+            $dtpulang = date("H:i:s", strtotime('14:59:00'));
 
             if($dtnow >= date("H:i:s", strtotime('00:00:00')) && $dtnow < $dtmasuk) { //jam masuk
                 if(count($qr_arr) > 1) {

@@ -53,7 +53,7 @@ class Absensi extends CI_Controller {
             'L / P'
         );
 
-        $date_obj = date_range(date("Y-m-d"/*, strtotime('-14 days')*/), date("Y-m-d", strtotime('+1 month')));
+        $date_obj = date_range(date("Y-m-d", strtotime('-1 month')), date("Y-m-d"));
 
         // debugvar($date_obj);
         // die();

@@ -19,13 +19,16 @@ class Qrs_model extends CI_Model
         parent::__construct();
     }
 
-    function testdate($param) {
-        $getdate = $this->db
-                    ->where('absen_date', date("Y-m-d"))
-                    ->where($param)
-                    ->get('qrabsen')
-                    ->result_array();
-        return $getdate;
+    function getMuridByNis($nis) {
+        $data = $this->db
+                ->select('murid.nama_murid, kelas.nama_kelas')
+                ->where('murid.nis', $nis)
+                ->limit(1)
+                ->join('kelas', 'murid.kelas = kelas.id_kelas', 'left')
+                ->get('murid')
+                ->row_array();
+
+        return $data;
     }
 
     function data_check($param) {
@@ -52,6 +55,7 @@ class Qrs_model extends CI_Model
     }
 
     function save_in($param) {
+        $status = '';
         $data_exist = $this->db
                     ->where($param)
                     ->where('absen_date', date("Y-m-d"))
@@ -67,9 +71,12 @@ class Qrs_model extends CI_Model
             );
             $status = $this->db->insert('qrabsen', $data);
         }
+
+        return $status;
     }
 
     function save_out($param) {
+        $status = '';
         $data_exist = $this->db
                     ->where($param)
                     ->where('absen_date', date("Y-m-d"))
@@ -85,13 +92,13 @@ class Qrs_model extends CI_Model
                     ->get('qrabsen')
                     ->row_array();
 
-            echo $this->db->last_query();
+            //echo $this->db->last_query();
 
             if(empty($get_absen_out['absen_out']) || $get_absen_out['absen_out'] == 'NULL' || $get_absen_out['absen_out'] == '') {
-                $this->db
-                ->where('nis', $param['nis'])
-                ->where('absen_date', date("Y-m-d"))
-                ->update('qrabsen', ['absen_out'=>strtotime(date("Y-m-d H:i:s"))]);
+                $status = $this->db
+                        ->where('nis', $param['nis'])
+                        ->where('absen_date', date("Y-m-d"))
+                        ->update('qrabsen', ['absen_out'=>strtotime(date("Y-m-d H:i:s"))]);
             }  
         } else {
             $data = array(
@@ -99,7 +106,9 @@ class Qrs_model extends CI_Model
                 'absen_out'=>strtotime(date("Y-m-d H:i:s")),
                 'absen_date'=>date("Y-m-d")
                 );
-            $this->db->insert('qrabsen', $data);
+            $status = $this->db->insert('qrabsen', $data);
         }
+
+        return $status;
     }
 }

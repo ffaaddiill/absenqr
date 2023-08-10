@@ -13,7 +13,7 @@ class Qrs extends CI_Controller {
     public function qs() {
         $dtnow = date("H:i:s");
         $dtmasuk = date("H:i:s", strtotime('09:00:00'));
-        $dtpulang = date("H:i:s", strtotime('14:59:00'));
+        $dtpulang = date("H:i:s", strtotime('13:00:00'));
 
         $this->data['dtmasuk'] = $dtmasuk;
         $this->data['dtpulang'] = $dtpulang;
@@ -30,7 +30,7 @@ class Qrs extends CI_Controller {
 
     	//$this->data['template'] = 'qrs/qrs';
         $dtsample = '1689536900';
-        echo 'Today: '.strtotime(date("Y-m-d H:i:s")) . '<br>'.date("Y-m-d H:i:s").'<br><br>';
+        //echo 'Today: '.strtotime(date("Y-m-d H:i:s")) . '<br>'.date("Y-m-d H:i:s").'<br><br>';
        // echo round(round( abs(strtotime(date("Y-m-d H:i:s")) - $dtsample) / 60, 2) / 60, 2) . ' jam';
     	$this->layout = '../qrs/qs.php';
     }
@@ -47,19 +47,32 @@ class Qrs extends CI_Controller {
 
             $dtnow = date("H:i:s");
             $dtmasuk = date("H:i:s", strtotime('09:00:00'));
-            $dtpulang = date("H:i:s", strtotime('14:59:00'));
+            $dtpulang = date("H:i:s", strtotime('13:00:00'));
+
+            $return;
 
             if($dtnow >= date("H:i:s", strtotime('00:00:00')) && $dtnow < $dtmasuk) { //jam masuk
                 if(count($qr_arr) > 1) {
                     foreach($qr_arr as $key=>$val) {
                         $val = trim($val);
                         if(!empty($val) && $this->Qrs_model->check_nis($val) > 0) {
-                            $this->Qrs_model->save_in(['nis'=>$val]);
-                            //echo $this->db->last_query().'<br>';
+                            $return['status'] = $this->Qrs_model->save_in(['nis'=>$val]);
+                            $return['nis'] = $val;
+                            $murid = $this->Qrs_model->getMuridByNis($val);
+                            $return['nama_murid'] = $murid['nama_murid'];
+                            $return['kelas'] = $murid['nama_kelas'];
+                        } else {
+                            $return['status'] = 0;
                         }
                     }
                 } else {
-                    ( !empty(trim($qr_arr[0])) )?$this->Qrs_model->save_in(['nis'=>$qr_arr[0]]):'';
+                    $return['status'] = ( !empty(trim($qr_arr[0])) )?$this->Qrs_model->save_in(['nis'=>$qr_arr[0]]):0;
+                    if($return['status']) {
+                        $return['nis'] = trim($qr_arr[0]);
+                        $murid = $this->Qrs_model->getMuridByNis(trim($qr_arr[0]));
+                        $return['nama_murid'] = $murid['nama_murid'];
+                        $return['kelas'] = $murid['nama_kelas'];
+                    }
                     //echo $this->db->last_query().'<br>';
                 }
             } elseif($dtnow >= $dtpulang && $dtnow < date("H:i:s", strtotime('20:00:00'))) { //jam pulang
@@ -67,19 +80,36 @@ class Qrs extends CI_Controller {
                     foreach($qr_arr as $key=>$val) {
                         $val = trim($val);
                         if(!empty($val) && $this->Qrs_model->check_nis($val) > 0) {
-                            $this->Qrs_model->save_out(['nis'=>$val]);
+                            $return['status'] = $this->Qrs_model->save_out(['nis'=>$val]);
+                            $return['nis'] = $val;
+                            $murid = $this->Qrs_model->getMuridByNis($val);
+                            $return['nama_murid'] = $murid['nama_murid'];
+                            $return['kelas'] = $murid['nama_kelas'];
                             //echo $this->db->last_query() . '<br>';
+                        } else {
+                            $return['status'] = 0;
                         }
                     }
                 } else {
-                    ( !empty(trim($qr_arr[0])) )?$this->Qrs_model->save_out(['nis'=>trim($qr_arr[0])]):'';
+                    $return['status'] = ( !empty(trim($qr_arr[0])) )?$this->Qrs_model->save_out(['nis'=>trim($qr_arr[0])]):0;
+                    if($return['status']) {
+                        $return['nis'] = trim($qr_arr[0]);
+                        $murid = $this->Qrs_model->getMuridByNis(trim($qr_arr[0]));
+                        $return['nama_murid'] = $murid['nama_murid'];
+                        $return['kelas'] = $murid['nama_kelas'];
+                    }
                     //echo $this->db->last_query().'<br>';
                 }
             }
             
-            echo '<pre>';
-            print_r($qr_arr);
-            print_r(count($qr_arr));
+            // echo '<pre>';
+            // print_r($qr_arr);
+            // print_r(count($qr_arr));
+
+            header('Content-type: application/json');
+            exit (
+                json_encode($return)
+            );
         }
     }
 }

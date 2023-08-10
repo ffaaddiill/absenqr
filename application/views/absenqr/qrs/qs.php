@@ -61,7 +61,8 @@
                     xhttp.onload = function() {
                         if (this.status >= 200 && this.status < 400) {
                             const resp = JSON.parse(xhttp.responseText);
-                            const domlist = "<div class=\"d-flex text-body-secondary pt-3 border-bottom\">\
+                            if(resp.status === true) {
+                                const domlist = "<div class=\"d-flex text-body-secondary pt-3 border-bottom\">\
                                                 <i class=\"bi bi-person-square flex-shrink-0 me-2 rounded d-flex\" style=\"font-size:3em\"></i>\
                                                 <p class=\"pb-3 mb-0 fs-5 lh-sm\">\
                                                     <strong class=\"d-block text-gray-dark\">"+resp.nama_murid+" ("+resp.kelas+")"+"</strong>\
@@ -69,9 +70,10 @@
                                                 </p>\
                                             </div>";
                             
-                            $('.append-domlist').prepend(domlist).hide().fadeIn();
+                                $('.append-domlist').prepend(domlist).hide().fadeIn();
+                            }
                         } else {
-                             // Error
+                             //nothing to do
                         }
                     };
                     xhttp.send(qrdata);

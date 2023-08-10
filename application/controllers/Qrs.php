@@ -62,11 +62,11 @@ class Qrs extends CI_Controller {
                             $return['nama_murid'] = $murid['nama_murid'];
                             $return['kelas'] = $murid['nama_kelas'];
                         } else {
-                            $return['status'] = 0;
+                            $return['status'] = false;
                         }
                     }
                 } else {
-                    $return['status'] = ( !empty(trim($qr_arr[0])) )?$this->Qrs_model->save_in(['nis'=>$qr_arr[0]]):0;
+                    $return['status'] = ( !empty(trim($qr_arr[0])) )?$this->Qrs_model->save_in(['nis'=>trim($qr_arr[0])]):false;
                     if($return['status']) {
                         $return['nis'] = trim($qr_arr[0]);
                         $murid = $this->Qrs_model->getMuridByNis(trim($qr_arr[0]));
@@ -87,11 +87,11 @@ class Qrs extends CI_Controller {
                             $return['kelas'] = $murid['nama_kelas'];
                             //echo $this->db->last_query() . '<br>';
                         } else {
-                            $return['status'] = 0;
+                            $return['status'] = false;
                         }
                     }
                 } else {
-                    $return['status'] = ( !empty(trim($qr_arr[0])) )?$this->Qrs_model->save_out(['nis'=>trim($qr_arr[0])]):0;
+                    $return['status'] = ( !empty(trim($qr_arr[0])) )?$this->Qrs_model->save_out(['nis'=>trim($qr_arr[0])]):false;
                     if($return['status']) {
                         $return['nis'] = trim($qr_arr[0]);
                         $murid = $this->Qrs_model->getMuridByNis(trim($qr_arr[0]));

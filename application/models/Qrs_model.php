@@ -99,7 +99,9 @@ class Qrs_model extends CI_Model
                         ->where('nis', $param['nis'])
                         ->where('absen_date', date("Y-m-d"))
                         ->update('qrabsen', ['absen_out'=>strtotime(date("Y-m-d H:i:s"))]);
-            }  
+            } else {
+                $status = false;
+            }
         } else {
             $data = array(
                 'nis'=>$param['nis'],

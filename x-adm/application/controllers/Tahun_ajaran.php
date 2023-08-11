@@ -128,12 +128,7 @@ class Tahun_ajaran extends CI_Controller {
         if (!$record) {
             redirect($this->class_path_name);
         }
-        $this->data['vendors'] = $this->Tahun_ajaran_model->GetVendor();
-        // echo '<pre>';
-        // print_r($this->data['vendors']);
-        // die();
-        //$this->load->model('Vendor_model');
-        //$this->data['category_vendor'] = $this->Vendor_model->GetCategoryVendor();
+
         $this->data['page_title'] = 'Edit';
         $this->data['form_action'] = site_url($this->class_path_name.'/edit/'.$id);
         $this->data['cancel_url'] = site_url($this->class_path_name);

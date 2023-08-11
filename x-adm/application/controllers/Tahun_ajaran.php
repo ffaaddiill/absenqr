@@ -224,8 +224,8 @@ class Tahun_ajaran extends CI_Controller {
         $config = array(
            
             array(
-                'field' => 'name',
-                'label' => 'Tahun_ajaranon Name',
+                'field' => 'tahun',
+                'label' => 'Tahun Ajaran',
                 'rules' => 'required'
             )
 
